@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Config } from "../components/Utils/Config";
 
 const DistributorFormPage = () => {
   const [formData, setFormData] = useState({
@@ -78,7 +79,7 @@ const DistributorFormPage = () => {
         pesticide_license: formData.pesticide_license.trim(),
       };
 
-      await axios.post("http://localhost:5000/api/distributorRequest", payload);
+      await axios.post(`${Config?.DistributorRequest_url}`, payload);
 
       toast({
         title:
