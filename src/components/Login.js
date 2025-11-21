@@ -14,11 +14,13 @@ const Login = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const toast = useToast();
   const navigate = useNavigate();
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleLogin = async () => {
     // Validate input fields
     let newErrors = {};
     if (!email.trim()) newErrors.email = "Email is required.";
+    else if(!emailPattern.test(email)) newErrors.email = "Enter a valid email."
     if (!password.trim()) newErrors.password = "Password is required.";
     setErrors(newErrors);
 
