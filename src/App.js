@@ -14,6 +14,7 @@ import ProductDetailsPage from './Pages/ProductDetailsPage';
 import AuthProvider from './components/Context/AuthContext';
 import CartProvider from './components/Context/CartContext';
 
+
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/signup' element={<SignupPage />} />
                 <Route path='/login' element={<LoginPage />} />
+                 <Route path='/checkoutpage' element={<CheckoutPage />} />
                 <Route path='/distributor-request' element={<DistributorFormPage />} />
                 <Route path='/product-details/:id' element={<ProductDetailsPage />} />
               </Routes>
