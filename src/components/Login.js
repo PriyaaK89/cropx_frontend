@@ -1,12 +1,23 @@
-import { 
-  Box, Flex, Heading, Text, Input, Button, VStack, Checkbox, 
-  FormControl, FormLabel, FormErrorMessage, useToast 
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Input,
+  Button,
+  VStack,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import seedImg from "../images/growing_seed.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { Config } from "./Utils/Config";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./Context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,12 +26,14 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async () => {
     // Validate input fields
     let newErrors = {};
     if (!email.trim()) newErrors.email = "Email is required.";
-    else if(!emailPattern.test(email)) newErrors.email = "Enter a valid email."
+    else if (!emailPattern.test(email))
+      newErrors.email = "Enter a valid email.";
     if (!password.trim()) newErrors.password = "Password is required.";
     setErrors(newErrors);
 
@@ -39,6 +52,12 @@ const Login = () => {
           status: "success",
           isClosable: true,
         });
+        const userData = {
+          token: res.data.token,
+          data: res.data.user,
+        };
+
+        login(userData);
         setTimeout(() => {
           navigate("/");
         }, 2000);
@@ -76,8 +95,7 @@ const Login = () => {
         backdropFilter="blur(12px)"
         rounded="30px"
         overflow="hidden"
-        boxShadow="0 0 35px rgba(0,0,0,0.4)"
-      >
+        boxShadow="0 0 35px rgba(0,0,0,0.4)">
         {/* LEFT IMAGE */}
         <Box flex="1">
           <Box
@@ -96,8 +114,7 @@ const Login = () => {
           p="60px 40px"
           direction="column"
           justify="center"
-          color="white"
-        >
+          color="white">
           <Heading mb="10px" textAlign="center" fontWeight="600">
             Login
           </Heading>
@@ -118,7 +135,13 @@ const Login = () => {
                 onChange={handleEmailChange}
               />
               {errors.email && (
-                <FormErrorMessage color='white' marginLeft='7px' marginTop="0px" fontSize='12px'>{errors.email}</FormErrorMessage>
+                <FormErrorMessage
+                  color="white"
+                  marginLeft="7px"
+                  marginTop="0px"
+                  fontSize="12px">
+                  {errors.email}
+                </FormErrorMessage>
               )}
             </FormControl>
 
@@ -135,7 +158,13 @@ const Login = () => {
                 onChange={handlePasswordChange}
               />
               {errors.password && (
-                <FormErrorMessage color='white' marginLeft='7px' marginTop="0px" fontSize='12px'>{errors.password}</FormErrorMessage>
+                <FormErrorMessage
+                  color="white"
+                  marginLeft="7px"
+                  marginTop="0px"
+                  fontSize="12px">
+                  {errors.password}
+                </FormErrorMessage>
               )}
             </FormControl>
           </VStack>
@@ -152,8 +181,7 @@ const Login = () => {
             rounded="full"
             fontWeight="600"
             _hover={{ bg: "#eaffcc" }}
-            onClick={handleLogin}
-          >
+            onClick={handleLogin}>
             Login
           </Button>
         </Flex>
