@@ -9,21 +9,27 @@ import LoginPage from './Pages/Login';
 import DistributorFormPage from './Pages/DistributorAccessForm';
 import SignupPage from './Pages/SignUp';
 import ProductDetailsPage from './Pages/ProductDetailsPage';
+import AuthProvider from './components/Context/AuthContext';
+import CartProvider from './components/Context/CartContext';
 
 function App() {
   return (
     <>
-    <ChakraProvider>
-      <Router>
-        <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/signup' element={<SignupPage/>}/>
-        <Route path='/login' element={<LoginPage/>}/>
-        <Route path='/distributor-request' element={<DistributorFormPage/>}/>
-        <Route path='/product-details/:id' element={<ProductDetailsPage/>}/>
-        </Routes>
-      </Router>
-    </ChakraProvider>
+      <ChakraProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/signup' element={<SignupPage />} />
+                <Route path='/login' element={<LoginPage />} />
+                <Route path='/distributor-request' element={<DistributorFormPage />} />
+                <Route path='/product-details/:id' element={<ProductDetailsPage />} />
+              </Routes>
+            </Router>
+          </CartProvider>
+        </AuthProvider>
+      </ChakraProvider>
     </>
   );
 }
