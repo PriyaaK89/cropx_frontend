@@ -5,10 +5,14 @@ import { CartContext } from "../Context/CartContext";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import { Config } from "../Utils/Config";
+import { useNavigate } from "react-router-dom";
+
 
 const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose, handleIncrease, handleDecrease }) => {
   const { cartData } = useContext(CartContext);
   const toast = useToast();
+  const navigate = useNavigate();
+
 
   const handleRemoveProduct = async () => {
     try {
@@ -182,7 +186,7 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose, handleIncrease, handl
         </DrawerBody>
 
         <DrawerFooter>
-          <Button colorScheme="blue" w="100%">
+          <Button colorScheme="blue" w="100%" onClick={()=>navigate("/checkoutpage")}>
             Go to Checkout
           </Button>
         </DrawerFooter>
