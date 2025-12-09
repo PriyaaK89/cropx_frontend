@@ -6,11 +6,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './Pages/Home';
 import LoginPage from './Pages/Login';
+import CheckoutPage from './Pages/CheckoutPage';
+
 import DistributorFormPage from './Pages/DistributorAccessForm';
 import SignupPage from './Pages/SignUp';
 import ProductDetailsPage from './Pages/ProductDetailsPage';
 import AuthProvider from './components/Context/AuthContext';
 import CartProvider from './components/Context/CartContext';
+
 
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
                 <Route path='/' element={<Home />} />
                 <Route path='/signup' element={<SignupPage />} />
                 <Route path='/login' element={<LoginPage />} />
+                 <Route path='/checkoutpage' element={<CheckoutPage />} />
                 <Route path='/distributor-request' element={<DistributorFormPage />} />
                 <Route path='/product-details/:id' element={<ProductDetailsPage />} />
               </Routes>
