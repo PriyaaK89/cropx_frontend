@@ -10,8 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { isOpen: isQuantityModalOpen, onOpen: onQuantityModalOpen, onClose: onQuantityModalClose } = useDisclosure();
   const navigate = useNavigate();
 
   const getProducts = async () => {
@@ -33,7 +32,7 @@ const Products = () => {
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
-    onOpen();
+    onQuantityModalOpen();
   };
 
   const cardBg = useColorModeValue("white", "gray.800");
@@ -49,10 +48,7 @@ const Products = () => {
 
   return (
     <>
-
-    <Box p={4} mt="4rem"
-      bg={useColorModeValue("#fbfcf7", "#fbfcf7")}
-      minH="100vh">
+    <Box p={4} mt="4rem" bg={useColorModeValue("#f4f6f9", "#f4f6f9")} minH="100vh">
       <HStack justifyContent="space-between" padding="0rem 2rem">
         <Text fontSize="18px" fontWeight={600} color="#4d4d4d" padding="1rem 2rem 3rem">
           Best Selling
@@ -100,7 +96,7 @@ const Products = () => {
                     <FaHeart color="gray" />
                   </Box>
 
-                  <Image src={p.product_img} alt={p.product_name} w="100%" h="200px" objectFit="contain" bg="gray.100" />
+                  <Image src={p.product_img} alt={p.product_name} w="100%" h="200px" paddingTop="2rem" objectFit="contain" bg="white" />
 
                   <Box p={4}>
                     <Text fontWeight="semibold" fontFamily="Inter-SemiBold" fontSize="md" noOfLines={2} lineHeight="19px">
@@ -143,12 +139,7 @@ const Products = () => {
                               {firstSingle.quantity_value}{" "}
                               {firstSingle.quantity_type}
                             </Text>
-                            <Icon
-                              as={FaChevronDown}
-                              boxSize={4}
-                              color="gray.500"
-                              mt="3px"
-                            />
+                            <Icon as={FaChevronDown} boxSize={4} color="gray.500" mt="3px" />
                           </Flex>
                         </HStack>
                       </>
@@ -168,8 +159,8 @@ const Products = () => {
 
       {selectedProduct && (
         <ProductQuantityModal
-          isOpen={isOpen}
-          onClose={onClose}
+          isQuantityModalOpen={isQuantityModalOpen}
+          onQuantityModalClose={onQuantityModalClose}
           product={selectedProduct}
         />
       )}

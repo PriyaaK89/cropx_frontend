@@ -12,5 +12,13 @@ export const Config = {
     Add_to_cart: `${BASE_URL}cart/add-item`,
     decrease_item: `${BASE_URL}cart/decrease-quanity`,
     get_cart_items: `${BASE_URL}cart`,
-    remove_cart_item: `${BASE_URL}cart/remove-all-items`
+    remove_cart_item: `${BASE_URL}cart/remove-all-items`,
+    get_product_by_categories: `${BASE_URL}product/get-products-by-category`,
+    add_delivery_address: `${BASE_URL}api/saveDeliveryAddress`,
+    get_order_summary: `${BASE_URL}api/Order-summary`,
+    update_delivery_address: `${BASE_URL}api/updateAddress`,
+    get_delivery_address: `${BASE_URL}api/getAddress`,
+    get_city_state_from_pincode: `${BASE_URL}getstatecity`,
+    create_order: `${BASE_URL}api/create-order`,
+    verifyPayment: `${BASE_URL}api/verify-payment`
 }

@@ -1,25 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Image,
-  Text,
-  Flex,
-  Badge,
-  Spinner,
-  Heading,
-  SimpleGrid,
-  Divider,
-  Card,
-  Stack,
-  Button,
-  HStack,
-  VStack,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  useToast,
+import { Box, Image, Text, Flex, Badge, Spinner, Heading, SimpleGrid, Divider, Card, Stack, Button, HStack, VStack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -222,14 +202,10 @@ export default function ProductDetails() {
               <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
                 {data?.multi_packs?.map((mp) => (
                   <Card
-                    key={mp?.multipack_id}
-                    p={4}
-                    shadow="md"
+                    key={mp?.multipack_id} p={4} shadow="md"
                     borderRadius="lg"
                     bg={selectedVariant === mp ? "purple.50" : "white"}
-                    cursor="pointer"
-                    onClick={() => setSelectedVariant(mp)}
-                  >
+                    cursor="pointer" onClick={() => setSelectedVariant(mp)}>
                     <Stack spacing={2}>
                       <Text fontWeight="bold">
                         {mp?.pack_quantity} × {mp?.base_quantity_value}{" "}
@@ -246,14 +222,11 @@ export default function ProductDetails() {
                         <Badge colorScheme="purple" fontSize="0.8rem">
                           {mp?.discount_percentage}% OFF
                         </Badge>
-                        <Button
-                          size="sm"
-                          variant="outline"
+                        <Button size="sm" variant="outline"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleAddToCart(mp);
-                          }}
-                        >
+                          }}>
                           Add
                         </Button>
                       </HStack>
@@ -285,12 +258,8 @@ export default function ProductDetails() {
                   <HStack spacing={3} align="center">
                     <Text>Quantity</Text>
                     <NumberInput
-                      size="sm"
-                      maxW="120px"
-                      min={1}
-                      value={quantity}
-                      onChange={(v) => setQuantity(Number(v))}
-                    >
+                      size="sm" maxW="120px" min={1} value={quantity}
+                      onChange={(v) => setQuantity(Number(v))}>
                       <NumberInputField />
                       <NumberInputStepper>
                         <NumberIncrementStepper />
