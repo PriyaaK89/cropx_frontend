@@ -20,5 +20,7 @@ export const Config = {
     get_delivery_address: `${BASE_URL}api/getAddress`,
     get_city_state_from_pincode: `${BASE_URL}getstatecity`,
     create_order: `${BASE_URL}api/create-order`,
-    verifyPayment: `${BASE_URL}api/verify-payment`
+    verifyPayment: `${BASE_URL}api/verify-payment`,
+    place_order: `${BASE_URL}api/place-order`,
+    order_details_by_id: `${BASE_URL}api/order-details`
 }

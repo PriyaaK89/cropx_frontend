@@ -1,6 +1,5 @@
 import {
-  Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Box, Image, Text, Flex, IconButton, HStack, useToast, useDisclosure,
-} from "@chakra-ui/react";
+  Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Box, Image, Text, Flex, IconButton, HStack, useToast, useDisclosure, Img,} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import React, { useContext, useState } from "react";
 import { CartContext } from "../Context/CartContext";
@@ -10,6 +9,7 @@ import { Config } from "../Utils/Config";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import LoginModal from "../Models/LoginModal";
+import emptyCartImg from "../../images/emptyCart.jpg"
 
 const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
   const { cartData, getCartItems } = useContext(CartContext);
@@ -105,20 +105,21 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Your Cart</DrawerHeader>
-
           <DrawerBody>
-            {cartData?.length === 0 ? (
-              <Text>No items in cart</Text>
-            ) : (
+            {cartData?.length === 0 ? ( 
+              <>
+              <Box display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+                <Img src={emptyCartImg} alt="empty cart" width='280px'/>
+                <Text my={6}>No Items added to cart.</Text>
+                <Button bg="green" color="white" fontSize="14px" fontWeight="500" _hover={{ background: 'green.600' }} onClick={onCartDrawerClose}>Continue Shopping</Button>
+              </Box>
+              </>
+             ) : (
               cartData.map((product) => (
                 <Box key={product.product_id} mb={5}>
                   {product.single_packs.map((sp) => (
-                    <Flex
-                      key={sp.variant_id}
-                      p={4}
-                      borderBottom="1px solid #e5e5e5"
-                      gap={4}
-                      align="flex-start">
+                    <Flex key={sp.variant_id} p={4}
+                      borderBottom="1px solid #e5e5e5" gap={4} align="flex-start">
                       <Image src={product.product_img} alt={product.product_name} boxSize="70px" objectFit="contain" />
 
                       {/* Right Section */}
@@ -127,18 +128,13 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                         <Text fontSize="14px" color="gray.500"> {product.product_category}</Text>
 
                         <Text fontSize="14px" mt={1}>
-                          Size{" "}
-                          <b>{sp.quantity_value + " " + sp.quantity_type}</b>
+                          Size{" "} <b>{sp.quantity_value + " " + sp.quantity_type}</b>
                         </Text>
 
                         {/* Price Section */}
                         <HStack spacing={2} mt={1}>
-                          <Text fontSize="16px" fontWeight="bold">
-                            ₹{sp.discounted_price}
-                          </Text>
-                          <Text fontSize="14px" color="gray.500" as="s">
-                            ₹{sp.actual_price}
-                          </Text>
+                          <Text fontSize="16px" fontWeight="bold"> ₹{sp.discounted_price} </Text>
+                          <Text fontSize="14px" color="gray.500" as="s"> ₹{sp.actual_price} </Text>
                         </HStack>
 
                         {/* Qty & Remove */}
@@ -154,21 +150,13 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                                 🗑
                               </Button>
                             ) : (
-                              <Button
-                                onClick={() => handleDecrease({ product_id: product?.product_id, variant_id: sp.variant_id, multipack_id: sp.multipack_id})} bg="white" color="red.500" fontSize="20px" px={4}>
-                                -
-                              </Button>
-                            )}
+                              <Button onClick={() => handleDecrease({ product_id: product?.product_id, variant_id: sp.variant_id, multipack_id: sp.multipack_id})} bg="white" color="red.500" fontSize="20px" px={4}> - </Button>)}
 
                             {/* Quantity */}
-                            <Box bg="green.500" color="white" px={4} py={1} fontWeight="bold">
-                              {sp.cart_quantity}
-                            </Box>
+                            <Box bg="green.500" color="white" px={4} py={1} fontWeight="bold"> {sp.cart_quantity} </Box>
 
                             {/* Increase */}
-                            <Button
-                              onClick={() =>
-                                handleIncrease({ product_id: product?.product_id, variant_id: sp.variant_id, multipack_id: sp.multipack_id })}
+                            <Button onClick={() => handleIncrease({ product_id: product?.product_id, variant_id: sp.variant_id, multipack_id: sp.multipack_id })}
                               bg="white" color="green.600" fontSize="20px" px={4}>
                               +
                             </Button>
@@ -176,9 +164,7 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                           </Flex>
 
                           {/* Remove Button */}
-                          <Button size="sm" colorScheme="red" onClick={() => handleRemoveProduct(sp.cart_item_id)}>
-                            Remove
-                          </Button>
+                          <Button size="sm" colorScheme="red" onClick={() => handleRemoveProduct(sp.cart_item_id)}> Remove </Button>
                         </HStack>
                       </Box>
                     </Flex>
@@ -190,41 +176,27 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                   {product.multi_packs.map((mp) => {
                     const key = mp.multipack_id;
                     return (
-                      <Flex key={mp.multipack_id}
-                        p={4} borderBottom="1px solid #e5e5e5" gap={4} align="flex-start">
+                      <Flex key={mp.multipack_id} p={4} borderBottom="1px solid #e5e5e5" gap={4} align="flex-start">
                         {/* Product Image */}
                         <Image src={product.product_img} alt={product.product_name} boxSize="70px" objectFit="contain" />
 
                         {/* Right Section */}
                         <Box flex="1">
-                          <Text fontSize="16px" fontWeight="600">
-                            {" "}
-                            {product.product_name}{" "}
-                          </Text>
-
-                          <Text fontSize="14px" color="gray.500">
-                            {" "}
-                            {product.product_category}{" "}
-                          </Text>
-
+                          <Text fontSize="16px" fontWeight="600"> {" "} {product.product_name}{" "} </Text>
+                          <Text fontSize="14px" color="gray.500"> {" "}{product.product_category}{" "} </Text>
                           <Text fontSize="14px" mt={1}>
                             Size{" "}
                             <b>
                               {mp.total_quantity_value} {mp.quantity_type} (
-                              {mp.base_quantity}
-                              {mp.quantity_type}
+                              {mp.base_quantity}{mp.quantity_type}
                               <RxCross2 style={{ display: "inline", margin: "0 5px" }} />
                               {mp.pack_quantity})
                             </b>
                           </Text>
 
                           <HStack spacing={2} mt={1}>
-                            <Text fontSize="16px" fontWeight="bold">
-                              ₹{mp.total_discounted_price}
-                            </Text>
-                            <Text fontSize="14px" color="gray.500" as="s">
-                              ₹{mp.total_actual_price}
-                            </Text>
+                            <Text fontSize="16px" fontWeight="bold"> ₹{mp.total_discounted_price} </Text>
+                            <Text fontSize="14px" color="gray.500" as="s"> ₹{mp.total_actual_price} </Text>
                           </HStack>
 
                           <HStack mt={3}>
@@ -258,11 +230,9 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
             )}
           </DrawerBody>
 
-          <DrawerFooter>
-            <Button colorScheme="blue" w="100%" onClick={() => navigate("/save-address")}>
-              Go to Checkout
-            </Button>
-          </DrawerFooter>
+        {cartData?.length !== 0 &&  <DrawerFooter>
+            <Button colorScheme="blue" w="100%" onClick={() => navigate("/save-address")}>Go to Checkout</Button>
+          </DrawerFooter>}
         </DrawerContent>
       </Drawer>
     </>

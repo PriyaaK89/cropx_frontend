@@ -6,6 +6,8 @@ import { Config } from "../Utils/Config";
 import { AuthContext } from "../Context/AuthContext";
 import { PiSealPercentFill } from "react-icons/pi";
 import EditAddressModal from "../Checkout/EditAddressModal";
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../Context/CartContext";
 
 const OrderSummary = () => {
     const { user } = useContext(AuthContext);
@@ -15,7 +17,9 @@ const OrderSummary = () => {
     const [orderData, setOrderData] = useState(null);
     const [loading, setLoading] = useState(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const {getCartItems} = useContext(CartContext);
     const toast = useToast();
+    const navigate = useNavigate();
 
     const handleOpenModal = () => {
         onOpen();
@@ -40,7 +44,7 @@ const OrderSummary = () => {
 
     useEffect(() => {
         if (orderData?.order_summary) {
-            const grandTotal = orderData.order_summary.grand_total || 0;
+            const grandTotal = orderData?.order_summary?.grand_total || 0;
             if (paymentMethod === "online") {
                 setTotalPrice(grandTotal * 0.98); // 2% discount
             } else {
@@ -78,59 +82,124 @@ const OrderSummary = () => {
         });
     };
 
-const handlePayment = async () => {
-  const res = await loadRazorpayScript();
-  if (!res) {
-    toast({
-      description: "Razorpay SDK failed to load",
-      status: "error",
-    });
-    return;
-  }
+    const handlePayment = async () => {
+    try {
+        // Load Razorpay SDK
+        const res = await loadRazorpayScript();
+        if (!res) {
+            toast({
+                description: "Razorpay SDK failed to load",
+                status: "error",
+            });
+            return;
+        }
 
-  // Create Razorpay order (backend)
-  const order = await axios.post(`${Config?.create_order}`, {
-    amount: 1 // Use actual amount
-  });
+        // 1. CREATE ORDER FROM BACKEND
+        const orderResponse = await axios.post(`${Config?.create_order}`, {
+            amount: totalPrice,   //  use actual amount
+        });
 
-  if (!order.data || !order.data.order_id) {
-    toast({
-      description: "Failed to create order!",
-      status: "error",
-    });
-    return;
-  }
+        if (!orderResponse?.data || !orderResponse?.data?.order_id) {
+            toast({
+                description: "Failed to create order!",
+                status: "error",
+            });
+            return;
+        }
 
-  const order_id = order.data.order_id;
-  const amount = order.data.amount;
-  const currency = order.data.currency;
+        const { order_id, amount, currency } = orderResponse?.data;
 
-  const options = {
-    key: process.env.REACT_APP_RAZORPAY_KEY_ID,
-    amount: amount.toString(),
-    currency,
-    name: "My Test Store",
-    order_id: order_id,
+        // 2. RAZORPAY OPTIONS
+        const options = {
+            key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+            amount: amount.toString(),
+            currency,
+            name: "CropX Genetic Store",
+            description: "Order Payment",
+            order_id: order_id,
 
-    handler: async function (response) {
-      const verify = await axios.post(`${Config?.verifyPayment}`, response);
+            // 3. PAYMENT SUCCESS HANDLER
+            handler: async function (response) {
+                try {
+                    // Verify payment
+                    await axios.post(`${Config?.verifyPayment}`, response);
 
-      toast({
-        description: "Payment Successful!",
-        status: "success",
-      });
-    },
+                    // Place order now
+                    const placeOrderResponse = await axios.post(`${Config?.place_order}`, {
+                        user_id: userId,
+                        address_id: orderData?.delivery_address?.id,
+                        payment_method: "ONLINE",
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id
+                    });
 
-    prefill: {
-      name: user?.data?.name,
-      email: user?.data?.email,
-      contact: user?.data?.phone,
-    },
-  };
+                    if (placeOrderResponse?.status === 201) {
+                        toast({
+                            description: "Order Placed Successfully!",
+                            status: "success",
+                        });
+                        setTimeout(()=>{
+                             navigate(`/order-success/${placeOrderResponse?.data?.order_id}`);
+                        },1500)
+                    }
 
-  const rzp = new window.Razorpay(options);
-  rzp.open();
+                } catch (error) {
+                    toast({
+                        description: "Payment verified but order placement failed!",
+                        status: "error",
+                    });
+                    console.log(error);
+                }
+            },
+
+            // Prefill customer info
+            prefill: {
+                name: user?.data?.name,
+                email: user?.data?.email,
+                contact: user?.data?.phone,
+            },
+
+            theme: {
+                color: "#0f9d58",
+            },
+        };
+
+        // 4. OPEN RAZORPAY POPUP
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+
+    } catch (error) {
+        console.log(error);
+        toast({
+            description: "Something went wrong!",
+            status: "error",
+        });
+    }
 };
+
+
+    const handlePlaceOrder = async () => {
+    try {
+        const response = await axios.post(`${Config?.place_order}`, {
+            user_id: userId,
+            address_id: orderData?.delivery_address?.id,
+            payment_method: "COD"
+        });
+
+        if (response.status === 201) {
+            toast({
+                description: "Order Placed Successfully!",
+                status: "success",
+            });
+            setTimeout(() => {
+                navigate(`/order-success/${response?.data?.order_id}`);
+            }, 1000);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 
 
     return (
@@ -153,12 +222,7 @@ const handlePayment = async () => {
                         </Box>
                         <Button variant="outline" colorScheme="green" onClick={handleOpenModal}> Change</Button>
                     </Flex>
-
-                    {/* Payment Section */}
-                    <Text fontWeight="bold" mt={6} mb={3}>
-                        Select Payment Method
-                    </Text>
-
+                    <Text fontWeight="bold" mt={6} mb={3}> Select Payment Method </Text>
                     <RadioGroup value={paymentMethod} onChange={(val) => setPaymentMethod(val)}>
                         <VStack spacing={4} align="stretch">
                             {/* Online */}
@@ -169,7 +233,8 @@ const handlePayment = async () => {
                                     <Text fontWeight="bold">Pay Online (2% Discount)</Text>
                                 </HStack>
                                 <Box textAlign="right">
-                                    <Text fontWeight="bold" fontSize="lg">₹{paymentMethod === "online" ? totalPrice.toFixed(2) : order_summary?.grand_total}</Text>
+                                    {/* <Text fontWeight="bold" fontSize="lg">₹{paymentMethod === "online" ? totalPrice.toFixed(2) : order_summary?.grand_total}</Text> */}
+                                    <Text fontWeight="bold" fontSize="lg">₹{paymentMethod === "online" ? totalPrice.toFixed(2) : totalPrice.toFixed(2)}</Text>
                                 </Box>
                             </Flex>
 
@@ -201,16 +266,12 @@ const handlePayment = async () => {
                 <Box flex="1" bg="white" p={5} borderRadius="md" boxShadow="sm">
                     {/*  Dynamic Product List */}
                     <Box maxH="250px" overflowY="auto" pr={2}
-                        css={{
-                            "&::-webkit-scrollbar": { width: "6px" },
-                            "&::-webkit-scrollbar-thumb": {
-                                background: "#cbd5e0", borderRadius: "10px"
-                            }
+                        css={{ "&::-webkit-scrollbar": { width: "6px" },
+                            "&::-webkit-scrollbar-thumb": { background: "#cbd5e0", borderRadius: "10px"}
                         }}>
                         {cart_products?.map((product) => {
                             const singlePacks = product.single_packs || [];
                             const multiPacks = product.multi_packs || [];
-
                             return (
                                 <Box key={product.product_id}>
                                     {/*  SINGLE PACKS */}
@@ -283,8 +344,8 @@ const handlePayment = async () => {
                         <Divider />
 
                         <Flex justify="space-between" fontWeight="bold">
-                            <Text>Net Price</Text>
-                            <Text>₹{totalPrice.toFixed(2)}</Text>
+                            <Text fontSize="14px" color="#2d2d2d">Net Price</Text>
+                            <Text fontSize="14px" color="#2d2d2d">₹{totalPrice.toFixed(2)}</Text>
                         </Flex>
 
                         <Box>
@@ -296,7 +357,9 @@ const handlePayment = async () => {
                                 <Box>
                                     <Text fontSize="14px">₹{totalPrice.toFixed(2)}</Text>
                                     <Text fontSize="14px" fontWeight="600">Net Price</Text></Box>
-                                <Box><Button onClick={handlePayment} bg="green" color="white" fontSize="14px" fontWeight="500" _hover={{ background: 'green.600' }}>Make Payment</Button></Box>
+                                <Box><Button  onClick={paymentMethod === "cod" ? handlePlaceOrder : handlePayment} bg="green" color="white" fontSize="14px" fontWeight="500" _hover={{ background: 'green.600' }}>
+                                    {paymentMethod === "cod" ? "Place Order" : "Make Payment"}
+                                    </Button></Box>
                             </Flex>
                         </Box>
                     </VStack>
