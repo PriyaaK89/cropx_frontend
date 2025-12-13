@@ -1,16 +1,4 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Input,
-  Button,
-  VStack,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  useToast,
+import { Box, Flex, Heading, Text, Input, Button, VStack, Checkbox, FormControl, FormLabel, FormErrorMessage, useToast,
 } from "@chakra-ui/react";
 import seedImg from "../images/growing_seed.png";
 import { useContext, useState } from "react";

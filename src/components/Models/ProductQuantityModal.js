@@ -5,8 +5,9 @@ import CartDrawer from "../Cart/Cart";
 import { Config } from "../Utils/Config";
 import axios from "axios";
 import { CartContext } from "../Context/CartContext";
+import LoginModal from "./LoginModal";
 
-const ProductQuantityModal = ({ isOpen, onClose, product }) => {
+const ProductQuantityModal = ({ isQuantityModalOpen, onQuantityModalClose, product }) => {
   const { user } = useContext(AuthContext);
   const userId = user?.data?.id;
   console.log(userId, "UserId");
@@ -18,24 +19,21 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
 
   useEffect(() => {
     if (userId) {
-      getCartItems();  // LOAD CART WHEN PAGE REFRESHES
+      getCartItems(); 
     }
   }, [userId]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isQuantityModalOpen) return;
     if (!product) return;
     if (!cartData || cartData.length === 0) return;
 
     syncQuantitiesFromCart();
-  }, [isOpen, cartData, product]);
+  }, [isQuantityModalOpen, cartData, product]);
 
 
- const {
-  isOpen: isCartDrawerOpen,
-  onOpen: onCartDrawerOpen,
-  onClose: onCartDrawerClose
-} = useDisclosure();
+ const { isOpen: isCartDrawerOpen, onOpen: onCartDrawerOpen, onClose: onCartDrawerClose} = useDisclosure();
+ const {isOpen: isLoginModalOpen, onOpen: onLoginModalOpen, onClose: onLoginModalClose} = useDisclosure()
 
   const cardBg = useColorModeValue("white", "gray.800");
 
@@ -51,7 +49,16 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
 
   const handleIncrease = async ({ variant_id, multipack_id }) => {
     const key = multipack_id ? multipack_id : variant_id;
-
+    if(!userId){
+      toast({
+        description: 'Please login first to add items to cart!',
+        status: "error",
+        duration: 3000,
+        isClosable: true
+      })
+      onLoginModalOpen();
+      return;
+    }
     try {
       const payload = {
         user_id: userId,
@@ -68,6 +75,7 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
           ...prev,
           [key]: (prev[key] || 0) + 1,
         }));
+        getCartItems()
 
       }
     } catch (e) {
@@ -92,6 +100,7 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
           ...prev,
           [key]: (prev[key] || 0) - 1,
         }));
+        getCartItems()
 
       }
     } catch (e) {
@@ -124,15 +133,16 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
 
    const handleOpenDrawer = ()=>{
     onCartDrawerOpen()
-    onClose()
+    onQuantityModalClose()
    }
 
 
   return (
     <>
-      <CartDrawer isCartDrawerOpen={isCartDrawerOpen} onCartDrawerClose={onCartDrawerClose} handleIncrease={handleIncrease} handleDecrease={handleDecrease} />
+    <LoginModal isLoginModalOpen={isLoginModalOpen} onLoginModalClose={onLoginModalClose}/>
+      <CartDrawer isCartDrawerOpen={isCartDrawerOpen} onCartDrawerClose={onCartDrawerClose} />
 
-      <Modal isOpen={isOpen} onClose={onClose} size="lg" scrollBehavior="inside">
+      <Modal isOpen={isQuantityModalOpen} onClose={onQuantityModalClose} size="lg" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent rounded="2xl" p={2}>
           <ModalHeader>
@@ -258,7 +268,7 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
                     console.log("CHECKING UI KEY:", m.multipack_id);
                     console.log("CURRENT QUANTITIES:", quantities);
 
-                    const key = m.multipack_id; // ⭐ Always use multipack_id as the key
+                    const key = m.multipack_id; //  Always use multipack_id as the key
 
                     return (
                       <Box key={m.multipack_id} p={3} rounded="xl" bg={cardBg} shadow="xs" borderWidth="1px" borderColor="gray.100">
@@ -275,7 +285,7 @@ const ProductQuantityModal = ({ isOpen, onClose, product }) => {
                             <Text color="green.500" fontSize="sm">Save ₹{(actual - discounted).toFixed(2)}</Text>
                           </Box>
 
-                          {/* ⭐ CHECK QUANTITY USING multipack_id */}
+                          {/*  CHECK QUANTITY USING multipack_id */}
                           {quantities[key] ? (
 
                             <Flex height="33px" border="1px solid #ddd" rounded="lg" overflow="hidden" align="center">

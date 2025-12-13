@@ -9,9 +9,11 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Config } from "../Utils/Config";
+import { Link, useNavigate } from "react-router-dom";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+
 
   const getCategories = async () => {
     try {
@@ -44,7 +46,8 @@ const Categories = () => {
         spacing={{ base: 6, md: 0 }}
         justifyItems="center">
         {categories.map((cat, index) => (
-          <VStack key={index} spacing={3}>
+          <Link key={cat?.id} to={`/product-by-categories/${cat?.cate_name}`}>
+          <VStack key={index} spacing={3} >
             <Box
               w={{ base: "90px", md: "140px" }}
               h={{ base: "90px", md: "140px" }}
@@ -64,6 +67,7 @@ const Categories = () => {
               {cat.cate_name}
             </Text>
           </VStack>
+          </Link>
         ))}
       </SimpleGrid>
     </Box>
