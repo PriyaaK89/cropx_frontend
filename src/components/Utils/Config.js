@@ -22,5 +22,6 @@ export const Config = {
     create_order: `${BASE_URL}api/create-order`,
     verifyPayment: `${BASE_URL}api/verify-payment`,
     place_order: `${BASE_URL}api/place-order`,
-    order_details_by_id: `${BASE_URL}api/order-details`
+    order_details_by_id: `${BASE_URL}api/order-details`,
+    get_order_history: `${BASE_URL}api/order-history`,
 }
