@@ -16,6 +16,8 @@ import ProductsByCategory from './components/ProductCategory/ProductsbyCategory'
 import PaymentPage from './Pages/Payment';
 import AddressChecker from './components/Checkout/AddressChecker';
 import OrderSuccess from './Pages/OrderSuccess';
+import OrdersHistoryPage from './Pages/OrderHistoryPage';
+import TrackOrders from './components/Orders/TrackOrder';
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
                 <Route path="/save-address" element={<AddressChecker userId={4}> <CheckoutPage /> </AddressChecker> }/>
                 <Route path='/checkout/payment-mode' element={<PaymentPage />} />
                 <Route path='/order-success/:orderId' element={<OrderSuccess/>}/>
+                <Route path='/order-history' element={<OrdersHistoryPage/>}/>
+                <Route path='/track-order/:orderId' element={<TrackOrders/>}/>
               </Routes>
             </Router>
           </CartProvider>
