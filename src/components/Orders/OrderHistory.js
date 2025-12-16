@@ -1,14 +1,4 @@
-import {
-  Box,
-  Text,
-  Flex,
-  Image,
-  Badge,
-  Divider,
-  Stack,
-  VStack,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Badge, Divider, Stack, VStack, Button,} from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";

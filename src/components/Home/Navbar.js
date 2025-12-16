@@ -7,6 +7,7 @@ import CartDrawer from "../Cart/Cart";
 import { useContext } from "react";
 import { CartContext } from "../Context/CartContext";
 import { AuthContext } from "../Context/AuthContext";
+import SearchBar from "../SearchProducts/SearchBar";
 
 export default function TopNavbar() {
   const { isOpen: isCartDrawerOpen, onOpen: onCartDrawerOpen, onClose: onCartDrawerClose } = useDisclosure();
@@ -39,15 +40,16 @@ export default function TopNavbar() {
         <Box width="100%">
           <Flex align="center" justify="space-between">
             {/* Left: Logo */}
-            <Img src={logo} alt="logo" width="100px" />
+           <Link to="/" > <Img src={logo} alt="logo" width="100px" cursor="pointer" /> </Link>
             <Flex align="center" w="45%">
-              <InputGroup justifyContent="center">
+              {/* <InputGroup justifyContent="center">
                 <Input placeholder="Search products..." bg="white" border="1px solid #dcdcdc" borderRight="none" borderRadius="8px 0 0 8px" width="363px"
                   _focus={{ borderColor: "orange.400", boxShadow: "none" }} />
                 <InputRightElement width="50px" pointerEvents="none" />
                 <IconButton aria-label="Search" icon={<SearchIcon />} bg="#4f8b4e" color="white" borderRadius="0 8px 8px 0" _hover={{ bg: "#4f8b4e" }}
                 />
-              </InputGroup>
+              </InputGroup> */}
+              <SearchBar/>
             </Flex>
 
             {/* Right Section */}
