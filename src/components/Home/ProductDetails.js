@@ -96,7 +96,7 @@ export default function ProductDetails() {
           <Box>
             <Card borderRadius="2xl" shadow="xl" overflow="hidden" bg="white">
               <Image
-                src={selectedImage || data?.product_img}
+                src={ data?.product_img  || selectedImage}
                 alt={data?.product_name}
                 objectFit="contain"
                 w="100%"

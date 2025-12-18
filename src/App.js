@@ -12,10 +12,12 @@ import SignupPage from './Pages/SignUp';
 import ProductDetailsPage from './Pages/ProductDetailsPage';
 import AuthProvider from './components/Context/AuthContext';
 import CartProvider from './components/Context/CartContext';
-import ProductsByCategory from './components/ProductCategory/ProductsbyCategory';
 import PaymentPage from './Pages/Payment';
 import AddressChecker from './components/Checkout/AddressChecker';
 import OrderSuccess from './Pages/OrderSuccess';
+import OrdersHistoryPage from './Pages/OrderHistoryPage';
+import TrackOrders from './components/Orders/TrackOrder';
+import ProductByCategoriesPage from './Pages/ProductsByCategories';
 
 
 function App() {
@@ -31,11 +33,13 @@ function App() {
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/distributor-request' element={<DistributorFormPage />} />
                 <Route path='/product-details/:id' element={<ProductDetailsPage />} />
-                <Route path='/product-by-categories/:id' element={<ProductsByCategory />} />
+                <Route path='/product-by-categories/:id' element={<ProductByCategoriesPage/>} />
                 {/* <Route path='/save-address' element={<CheckoutPage />} /> */}
                 <Route path="/save-address" element={<AddressChecker userId={4}> <CheckoutPage /> </AddressChecker> }/>
                 <Route path='/checkout/payment-mode' element={<PaymentPage />} />
                 <Route path='/order-success/:orderId' element={<OrderSuccess/>}/>
+                <Route path='/order-history' element={<OrdersHistoryPage/>}/>
+                <Route path='/track-order/:orderId' element={<TrackOrders/>}/>
               </Routes>
             </Router>
           </CartProvider>
