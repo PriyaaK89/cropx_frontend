@@ -43,7 +43,7 @@ const Categories = () => {
 
       <SimpleGrid
         columns={{ base: 3, md: 6 }}
-        spacing={{ base: 6, md: 0 }}
+        spacing={{ base: 6, md: 10 }}
         justifyItems="center">
         {categories.map((cat, index) => (
           <Link key={cat?.id} to={`/product-by-categories/${cat?.cate_name}`}>
