@@ -45,7 +45,7 @@ const OrderSuccess = () => {
           Your order ID is: <b>{orderId}</b>
         </Text>
 
-        <Link to="/orders">
+        <Link to={`/track-order/${orderId}`}>
           <Button colorScheme="green">Track Your Order</Button>
         </Link>
 
