@@ -96,7 +96,7 @@ const OrderSummary = () => {
 
         // 1. CREATE ORDER FROM BACKEND
         const orderResponse = await axios.post(`${Config?.create_order}`, {
-            amount: totalPrice,   //  use actual amount
+             amount: Number(totalPrice)
         });
 
         if (!orderResponse?.data || !orderResponse?.data?.order_id) {

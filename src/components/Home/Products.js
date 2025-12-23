@@ -99,9 +99,9 @@ const Products = () => {
                   <Image src={p.product_img} alt={p.product_name} w="100%" h="200px" paddingTop="2rem" objectFit="contain" bg="white" />
 
                   <Box p={4}>
-                    <Text fontWeight="semibold" fontFamily="Inter-SemiBold" fontSize="md" noOfLines={2} lineHeight="19px">
-                      {p.product_name}
-                    </Text>
+                    {/* <Text fontWeight="semibold" fontFamily="Inter-SemiBold" fontSize="16px" noOfLines={2} lineHeight="19px"> {p.product_name}</Text> */}
+                    <Text fontSize='15px' fontWeight="semibold" color='gray.600'>{p.product_description}</Text>
+                    <Text fontSize='13px' color='gray.800'>{p.brand}</Text>
                     <Text fontSize="12px" color="gray.500">
                       {" "}
                       {p.product_category}{" "}

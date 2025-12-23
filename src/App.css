@@ -19,13 +19,13 @@
 @font-face {
   font-family: "Inter-Medium";
   src: url("../public/fonts/Inter-Medium.ttf") format("opentype");
-  font-weight: 500;
+  font-weight: 600;
   font-style: normal;
 }
 
 .navbar {
   position: sticky;
   top: 0;
-  bottom: 0;
   z-index: 13;
+  background: #fff;
 }

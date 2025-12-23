@@ -25,5 +25,7 @@ export const Config = {
     order_details_by_id: `${BASE_URL}api/order-details`,
     get_order_history: `${BASE_URL}api/order-history`,
     search_products: `${BASE_URL}api/search`,
-    rate_product: `${BASE_URL}rate-product`
+    rate_product: `${BASE_URL}rate-product`,
+    get_home_categories: `${BASE_URL}home/categories`,
+    get_menu: `${BASE_URL}get-menu`
 }

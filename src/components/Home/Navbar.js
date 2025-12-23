@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { CartContext } from "../Context/CartContext";
 import { AuthContext } from "../Context/AuthContext";
 import SearchBar from "../SearchProducts/SearchBar";
+import MenuBar from "./Menu";
 
 export default function TopNavbar() {
   const { isOpen: isCartDrawerOpen, onOpen: onCartDrawerOpen, onClose: onCartDrawerClose } = useDisclosure();
@@ -112,6 +113,7 @@ export default function TopNavbar() {
           </Flex>
         </Box>
       </Box>
+    <MenuBar/>
     </>
   );
 }
