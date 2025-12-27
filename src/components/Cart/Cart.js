@@ -31,7 +31,8 @@ import UnlockBar from "./UnlockBar";
 import { BsCart3 } from "react-icons/bs";
 
 const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
-  const { cartData, getCartItems,cartItems, priceSummary } = useContext(CartContext);
+  const { cartData, getCartItems, cartItems, priceSummary } =
+    useContext(CartContext);
   const toast = useToast();
   const navigate = useNavigate();
   const {
@@ -170,16 +171,21 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
             padding="10px 20px"
             bg="#d8efd6"
             fontWeight="500">
-       <HStack>  <BsCart3 />  <Text > Cart </Text> <Text>({cartItems} Items)</Text> </HStack>
+            <HStack>
+              {" "}
+              <BsCart3 /> <Text> Cart </Text> <Text>({cartItems} Items)</Text>{" "}
+            </HStack>
           </DrawerHeader>
           <DrawerBody padding="0px" position="relative">
+            <UnlockBar showUnlockedBar={showUnlockedBar} />
             {cartData?.length === 0 ? (
               <>
                 <Box
                   display="flex"
                   justifyContent="center"
                   flexDirection="column"
-                  alignItems="center" height="100%">
+                  alignItems="center"
+                  height="100%">
                   <Img src={emptyCartImg} alt="empty cart" width="190px" />
                   <Text my={6}>No Items added to cart.</Text>
                   <Button
@@ -199,12 +205,18 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                   {showFreeDeliveryBar && remainingAmount > 0 && (
                     <Box bg="#f4f0ff" borderRadius="6px" p={3} mb={3}>
                       <HStack spacing={2}>
-                        <Box bg="orange.400" color="white" px={2} py={1} borderRadius="4px">
+                        <Box
+                          bg="orange.400"
+                          color="white"
+                          px={2}
+                          py={1}
+                          borderRadius="4px">
                           🔒
                         </Box>
 
                         <Text fontSize="14px" fontWeight="500" color="#6b46c1">
-                          You're ₹{remainingAmount.toFixed(2)} away from Free Delivery!
+                          You're ₹{remainingAmount.toFixed(2)} away from Free
+                          Delivery!
                         </Text>
                       </HStack>
 
@@ -220,321 +232,314 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                     </Box>
                   )}
 
-                  <UnlockBar showUnlockedBar={showUnlockedBar}/>
-<Box height="290px" overflowY="auto" style={{scrollbarWidth: "none"}}>
-                  {product.single_packs.map((sp) => {
-                    return (
-                      <>
-                        {/* FREE DELIVERY INFO BAR */}
+                  <Box>
+                    <Box>
+                    {product.single_packs.map((sp) => {
+                      return (
+                        <>
+                          {/* FREE DELIVERY INFO BAR */}
 
-                        <Flex
-                          key={sp.variant_id}
-                          p={4}
-                          borderBottom="1px solid #e5e5e5"
-                          gap={4}
-                          align="flex-start">
-                          <Image
-                            src={product.product_img}
-                            alt={product.product_name}
-                            boxSize="70px"
-                            objectFit="contain"
-                          />
+                          <Flex
+                            key={sp.variant_id}
+                            p={4}
+                            borderBottom="1px solid #e5e5e5"
+                            gap={4}
+                            align="flex-start">
+                            <Image
+                              src={product.product_img}
+                              alt={product.product_name}
+                              boxSize="70px"
+                              objectFit="contain"
+                            />
 
-                          {/* Right Section */}
-                          <Box flex="1">
-                            <Text fontSize="16px" fontWeight="600">
-                              {" "}
-                              {product.product_name}{" "}
-                            </Text>
-                            <Text fontSize="14px" color="gray.500">
-                              {" "}
-                              {product.product_category}
-                            </Text>
-
-                            <Text fontSize="14px" mt={1}>
-                              Size{" "}
-                              <b>
-                                {sp.quantity_value + " " + sp.quantity_type}
-                              </b>
-                            </Text>
-
-                            {/* Price Section */}
-                            <HStack spacing={2} mt={1}>
-                              <Text fontSize="16px" fontWeight="bold">
+                            {/* Right Section */}
+                            <Box flex="1">
+                              <Text fontSize="16px" fontWeight="600">
                                 {" "}
-                                ₹{sp.discounted_price}{" "}
+                                {product.product_name}{" "}
                               </Text>
-                              <Text fontSize="14px" color="gray.500" as="s">
+                              <Text fontSize="14px" color="gray.500">
                                 {" "}
-                                ₹{sp.actual_price}{" "}
+                                {product.product_category}
                               </Text>
-                            </HStack>
 
-                            {/* Qty & Remove */}
-                            <HStack mt={3}>
-                              {/* Quantity Box */}
-                              <Flex
-                                border="1px solid #ccc"
-                                borderRadius="md"
-                                overflow="hidden"
-                                align="center"
-                                height="33px">
-                                {/* DELETE IF QTY = 1 ELSE MINUS */}
-                                {sp.cart_quantity === 1 ? (
+                              <Text fontSize="14px" mt={1}>
+                                Size{" "}
+                                <b>
+                                  {sp.quantity_value + " " + sp.quantity_type}
+                                </b>
+                              </Text>
+
+                              {/* Price Section */}
+                              <HStack spacing={2} mt={1}>
+                                <Text fontSize="16px" fontWeight="bold">
+                                  {" "}
+                                  ₹{sp.discounted_price}{" "}
+                                </Text>
+                                <Text fontSize="14px" color="gray.500" as="s">
+                                  {" "}
+                                  ₹{sp.actual_price}{" "}
+                                </Text>
+                              </HStack>
+
+                              {/* Qty & Remove */}
+                              <HStack mt={3}>
+                                {/* Quantity Box */}
+                                <Flex
+                                  border="1px solid #ccc"
+                                  borderRadius="md"
+                                  overflow="hidden"
+                                  align="center"
+                                  height="33px">
+                                  {/* DELETE IF QTY = 1 ELSE MINUS */}
+                                  {sp.cart_quantity === 1 ? (
+                                    <Button
+                                      onClick={() =>
+                                        handleRemoveProduct(sp.cart_item_id)
+                                      }
+                                      bg="white"
+                                      color="red.500"
+                                      fontSize="18px"
+                                      px={4}>
+                                      🗑
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      onClick={() =>
+                                        handleDecrease({
+                                          product_id: product?.product_id,
+                                          variant_id: sp.variant_id,
+                                          multipack_id: sp.multipack_id,
+                                        })
+                                      }
+                                      bg="white"
+                                      color="red.500"
+                                      fontSize="20px"
+                                      px={4}>
+                                      {" "}
+                                      -{" "}
+                                    </Button>
+                                  )}
+
+                                  {/* Quantity */}
+                                  <Box
+                                    bg="green.500"
+                                    color="white"
+                                    px={4}
+                                    py={1}
+                                    fontWeight="bold">
+                                    {" "}
+                                    {sp.cart_quantity}{" "}
+                                  </Box>
+
+                                  {/* Increase */}
                                   <Button
                                     onClick={() =>
-                                      handleRemoveProduct(sp.cart_item_id)
-                                    }
-                                    bg="white"
-                                    color="red.500"
-                                    fontSize="18px"
-                                    px={4}>
-                                    🗑
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    onClick={() =>
-                                      handleDecrease({
+                                      handleIncrease({
                                         product_id: product?.product_id,
                                         variant_id: sp.variant_id,
                                         multipack_id: sp.multipack_id,
                                       })
                                     }
                                     bg="white"
-                                    color="red.500"
+                                    color="green.600"
                                     fontSize="20px"
                                     px={4}>
-                                    {" "}
-                                    -{" "}
+                                    +
                                   </Button>
-                                )}
+                                </Flex>
 
-                                {/* Quantity */}
-                                <Box
-                                  bg="green.500"
-                                  color="white"
-                                  px={4}
-                                  py={1}
-                                  fontWeight="bold">
+                                {/* Remove Button */}
+                                <Button
+                                  size="sm"
+                                  colorScheme="red"
+                                  onClick={() =>
+                                    handleRemoveProduct(sp.cart_item_id)
+                                  }>
                                   {" "}
-                                  {sp.cart_quantity}{" "}
-                                </Box>
-
-                                {/* Increase */}
-                                <Button
-                                  onClick={() =>
-                                    handleIncrease({
-                                      product_id: product?.product_id,
-                                      variant_id: sp.variant_id,
-                                      multipack_id: sp.multipack_id,
-                                    })
-                                  }
-                                  bg="white"
-                                  color="green.600"
-                                  fontSize="20px"
-                                  px={4}>
-                                  +
+                                  Remove{" "}
                                 </Button>
-                              </Flex>
+                              </HStack>
+                            </Box>
+                          </Flex>
+                        </>
+                      );
+                    })}
+</Box>               
+<Box>
+                    {product.multi_packs.map((mp) => {
+                      const key = mp.multipack_id;
+                      return (
+                        <>
+                          <Flex
+                            key={mp.multipack_id}
+                            p={4}
+                            borderBottom="1px solid #e5e5e5"
+                            gap={4}
+                            align="flex-start">
 
-                              {/* Remove Button */}
-                              <Button
-                                size="sm"
-                                colorScheme="red"
-                                onClick={() =>
-                                  handleRemoveProduct(sp.cart_item_id)
-                                }>
+                            <Image
+                              src={product.product_img}
+                              alt={product.product_name}
+                              boxSize="70px"
+                              objectFit="contain"
+                            />
+
+                            <Box flex="1">
+                              <Text fontSize="16px" fontWeight="600">
                                 {" "}
-                                Remove{" "}
-                              </Button>
-                            </HStack>
-                          </Box>
-                        </Flex>
-                      </>
-                    );
-                  })}
-
-                  {/* ------------------------- */}
-                  {/* MULTIPACK UI              */}
-                  {/* ------------------------- */}
-                  {product.multi_packs.map((mp) => {
-                    const key = mp.multipack_id;
-                    return (
-                      <>
-                        <Flex
-                          key={mp.multipack_id}
-                          p={4}
-                          borderBottom="1px solid #e5e5e5"
-                          gap={4}
-                          align="flex-start">
-                          {/* Product Image */}
-                          <Image
-                            src={product.product_img}
-                            alt={product.product_name}
-                            boxSize="70px"
-                            objectFit="contain"
-                          />
-
-                          {/* Right Section */}
-                          <Box flex="1">
-                            <Text fontSize="16px" fontWeight="600">
-                              {" "}
-                              {product.product_name}{" "}
-                            </Text>
-                            <Text fontSize="14px" color="gray.500">
-                              {" "}
-                              {product.product_category}{" "}
-                            </Text>
-                            <Text fontSize="14px" mt={1}>
-                              Size{" "}
-                              <b>
-                                {mp.total_quantity_value} {mp.quantity_type} (
-                                {mp.base_quantity}
-                                {mp.quantity_type}
-                                <RxCross2
-                                  style={{ display: "inline", margin: "0 5px" }}
-                                />
-                                {mp.pack_quantity})
-                              </b>
-                            </Text>
-
-                            <HStack spacing={2} mt={1}>
-                              <Text fontSize="16px" fontWeight="bold">
-                                {" "}
-                                ₹{mp.discounted_price}{" "}
+                                {product.product_name}{" "}
                               </Text>
-                              <Text fontSize="14px" color="gray.500" as="s">
+                              <Text fontSize="14px" color="gray.500">
                                 {" "}
-                                ₹{mp.actual_price}{" "}
+                                {product.product_category}{" "}
                               </Text>
-                            </HStack>
+                              <Text fontSize="14px" mt={1}>
+                                Size{" "}
+                                <b>
+                                  {mp.total_quantity_value} {mp.quantity_type} (
+                                  {mp.base_quantity}
+                                  {mp.quantity_type}
+                                  <RxCross2
+                                    style={{
+                                      display: "inline",
+                                      margin: "0 5px",
+                                    }}
+                                  />
+                                  {mp.pack_quantity})
+                                </b>
+                              </Text>
 
-                            <HStack mt={3}>
-                              <Flex
-                                height="33px"
-                                border="1px solid #ddd"
-                                rounded="lg"
-                                overflow="hidden"
-                                align="center">
-                                {/* DELETE IF QUANTITY = 1 */}
-                                {mp.cart_quantity === 1 ? (
+                              <HStack spacing={2} mt={1}>
+                                <Text fontSize="16px" fontWeight="bold">
+                                  {" "}
+                                  ₹{mp.discounted_price}{" "}
+                                </Text>
+                                <Text fontSize="14px" color="gray.500" as="s">
+                                  {" "}
+                                  ₹{mp.actual_price}{" "}
+                                </Text>
+                              </HStack>
+
+                              <HStack mt={3}>
+                                <Flex
+                                  height="33px"
+                                  border="1px solid #ddd"
+                                  rounded="lg"
+                                  overflow="hidden"
+                                  align="center">
+                                  {mp.cart_quantity === 1 ? (
+                                    <Button
+                                      onClick={() =>
+                                        handleDecrease({
+                                          product_id: product?.product_id,
+                                          variant_id: mp.variant_id,
+                                          multipack_id: mp.multipack_id,
+                                        })
+                                      }
+                                      bg="white"
+                                      color="red.500"
+                                      fontSize="18px"
+                                      px={4}>
+                                      🗑
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      onClick={() =>
+                                        handleDecrease({
+                                          product_id: product?.product_id,
+                                          variant_id: mp.variant_id,
+                                          multipack_id: mp.multipack_id,
+                                        })
+                                      }
+                                      bg="white"
+                                      color="red.500"
+                                      fontSize="20px"
+                                      px={4}>
+                                      -
+                                    </Button>
+                                  )}
+
+                                  <Box
+                                    bg="green.600"
+                                    color="white"
+                                    px={6}
+                                    py={1}
+                                    fontWeight="bold">
+                                    {mp.cart_quantity}
+                                  </Box>
+
                                   <Button
                                     onClick={() =>
-                                      handleDecrease({
+                                      handleIncrease({
                                         product_id: product?.product_id,
                                         variant_id: mp.variant_id,
                                         multipack_id: mp.multipack_id,
                                       })
                                     }
                                     bg="white"
-                                    color="red.500"
-                                    fontSize="18px"
-                                    px={4}>
-                                    🗑
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    onClick={() =>
-                                      handleDecrease({
-                                        product_id: product?.product_id,
-                                        variant_id: mp.variant_id,
-                                        multipack_id: mp.multipack_id,
-                                      })
-                                    }
-                                    bg="white"
-                                    color="red.500"
+                                    color="green.600"
                                     fontSize="20px"
                                     px={4}>
-                                    -
+                                    +
                                   </Button>
-                                )}
+                                </Flex>
 
-                                {/* Quantity Box */}
-                                <Box
-                                  bg="green.600"
-                                  color="white"
-                                  px={6}
-                                  py={1}
-                                  fontWeight="bold">
-                                  {mp.cart_quantity}
-                                </Box>
-
-                                {/* Increase Button */}
                                 <Button
+                                  size="sm"
+                                  colorScheme="red"
                                   onClick={() =>
-                                    handleIncrease({
-                                      product_id: product?.product_id,
-                                      variant_id: mp.variant_id,
-                                      multipack_id: mp.multipack_id,
-                                    })
-                                  }
-                                  bg="white"
-                                  color="green.600"
-                                  fontSize="20px"
-                                  px={4}>
-                                  +
+                                    handleRemoveProduct(mp.cart_item_id)
+                                  }>
+                                  {" "}
+                                  Remove{" "}
                                 </Button>
-                              </Flex>
-
-                              {/* Remove Button */}
-                              <Button
-                                size="sm"
-                                colorScheme="red"
-                                onClick={() =>
-                                  handleRemoveProduct(mp.cart_item_id)
-                                }>
-                                {" "}
-                                Remove{" "}
-                              </Button>
-                            </HStack>
-                          </Box>
-                        </Flex>
-                        <VStack
-                          width="96%"
-                          alignItems="baseline"
-                          position="absolute"
-                          bottom="15px"
-                          left="20px">
-                          <HStack
-                            padding="4px 10px"
-                            background="linear-gradient(46deg, #e6f7e4, transparent)"
-                            borderRadius="5px"
-                            margin="0px 0px"
-                            width="68%">
-                            <HiReceiptPercent fill="#4b9451" fontSize="19px" />
-                            <Text
-                              fontSize="13px"
-                              fontFamily="Inter-SemiBold"
-                              color="green">
-                              Pay online & save 2% or more instantly.
-                            </Text>
-                          </HStack>
-                          <VStack alignItems="baseline" gap="4px" width="96%">
-                            <Text fontFamily="Inter-Medium" fontSize="14px">
-                              Billing Details
-                            </Text>
-                            <HStack
-                              justifyContent="space-between"
-                              width="-webkit-fill-available"
-                              fontSize="14px">
-                              <Text>Total Price</Text>{" "}
-                              <Text>{priceSummary?.subtotal}</Text>
-                            </HStack>
-                            <HStack
-                              justifyContent="space-between"
-                              width="-webkit-fill-available"
-                              fontSize="14px">
-                              <Text>Shipping Charges</Text>{" "}
-                              <Text>{priceSummary?.delivery_fee}</Text>
-                            </HStack>
-                          </VStack>
-                        </VStack>
-                      </>
-                    );
-                  })}</Box>
+                              </HStack>
+                            </Box>
+                          </Flex>
+                        </>
+                      );
+                    })}</Box></Box>
+                  
+                  
                 </Box>
               ))
             )}
+              <VStack width="96%" mb="4px">
+                      <HStack
+                        padding="4px 10px"
+                        background="linear-gradient(46deg, #e6f7e4, transparent)"
+                        borderRadius="5px"
+                        margin="0px 0px"
+                        width="68%">
+                        <HiReceiptPercent fill="#4b9451" fontSize="19px" />
+                        <Text
+                          fontSize="13px"
+                          fontFamily="Inter-SemiBold"
+                          color="green">
+                          Pay online & save 2% or more instantly.
+                        </Text>
+                      </HStack>
+                      <VStack alignItems="baseline" gap="4px" width="96%">
+                        <Text fontFamily="Inter-Medium" fontSize="14px">
+                          Billing Details
+                        </Text>
+                        <HStack
+                          justifyContent="space-between"
+                          width="-webkit-fill-available"
+                          fontSize="14px">
+                          <Text>Total Price</Text>{" "}
+                          <Text>{priceSummary?.subtotal}</Text>
+                        </HStack>
+                        <HStack
+                          justifyContent="space-between"
+                          width="-webkit-fill-available"
+                          fontSize="14px">
+                          <Text>Shipping Charges</Text>{" "}
+                          <Text>{priceSummary?.delivery_fee}</Text>
+                        </HStack>
+                      </VStack>
+                    </VStack>
           </DrawerBody>
 
           {cartData?.length !== 0 && (

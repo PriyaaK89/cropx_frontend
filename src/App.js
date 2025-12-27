@@ -18,6 +18,8 @@ import OrderSuccess from './Pages/OrderSuccess';
 import OrdersHistoryPage from './Pages/OrderHistoryPage';
 import TrackOrders from './components/Orders/TrackOrder';
 import ProductByCategoriesPage from './Pages/ProductsByCategories';
+import ProductByHomeCategories from './components/Products/ProductsByHome';
+import ProductListing from './components/Products/ProductListing';
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
                 <Route path='/order-success/:orderId' element={<OrderSuccess/>}/>
                 <Route path='/order-history' element={<OrdersHistoryPage/>}/>
                 <Route path='/track-order/:orderId' element={<TrackOrders/>}/>
+                <Route path='/product-by-categories/:categoryId' element={<ProductByHomeCategories/>}/>
+                <Route path="/products/:type" element={<ProductListing />} />
               </Routes>
             </Router>
           </CartProvider>

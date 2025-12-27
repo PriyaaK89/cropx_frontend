@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
 
+
   const getCategories = async () => {
     try {
       const response = await axios.get(`${Config?.get_home_categories}`);

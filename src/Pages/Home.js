@@ -5,6 +5,8 @@ import BannerSlider from "../components/Home/Slider";
 import Categories from "../components/Home/Categories";
 import Products from "../components/Home/Products";
 import FeaturesBar from "../components/Home/FeaturesBar";
+import BestSelling from "../components/Products/BestSelling";
+import NewArrivals from "../components/Products/NewArrivals";
 
 const Home = ()=>{
     return(
@@ -15,8 +17,10 @@ const Home = ()=>{
                 {/* </Box> */}
             <Box><BannerSlider/></Box>
             <Box><Categories/></Box>
-            <Box width='100%'><Products/></Box>
+            {/* <Box width='100%'><Products/></Box> */}
+            <Box mt="2rem"><BestSelling/></Box>
             <Box width={'100%'}><FeaturesBar/></Box>
+            <Box mt="2rem"><NewArrivals/></Box>
         </VStack>
         </>
     )
