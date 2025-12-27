@@ -13,7 +13,8 @@ export const Config = {
     decrease_item: `${BASE_URL}cart/decrease-quanity`,
     get_cart_items: `${BASE_URL}cart`,
     remove_cart_item: `${BASE_URL}cart/remove-all-items`,
-    get_product_by_categories: `${BASE_URL}product/get-products-by-category`,
+    // get_product_by_categories: `${BASE_URL}product/get-products-by-category`,
+    get_product_by_categories: `${BASE_URL}products`,
     add_delivery_address: `${BASE_URL}api/saveDeliveryAddress`,
     get_order_summary: `${BASE_URL}api/Order-summary`,
     update_delivery_address: `${BASE_URL}api/updateAddress`,
@@ -25,5 +26,7 @@ export const Config = {
     order_details_by_id: `${BASE_URL}api/order-details`,
     get_order_history: `${BASE_URL}api/order-history`,
     search_products: `${BASE_URL}api/search`,
-    rate_product: `${BASE_URL}rate-product`
+    rate_product: `${BASE_URL}rate-product`,
+    get_home_categories: `${BASE_URL}home/categories`,
+    get_menu: `${BASE_URL}get-menu`
 }

@@ -14,13 +14,12 @@ import { Link, useNavigate } from "react-router-dom";
 const Categories = () => {
   const [categories, setCategories] = useState([]);
 
-
   const getCategories = async () => {
     try {
-      const response = await axios.get(`${Config?.Get_Categories}`);
+      const response = await axios.get(`${Config?.get_home_categories}`);
       if (response?.status === 200) {
-        setCategories(response?.data?.categories);
-        console.log(response?.data?.categories, "CategoriesData");
+        setCategories(response?.data?.data);
+        console.log(response?.data?.data, "CategoriesData");
       } else {
         console.log("Something went wrong");
       }
@@ -46,7 +45,7 @@ const Categories = () => {
         spacing={{ base: 6, md: 10 }}
         justifyItems="center">
         {categories.map((cat, index) => (
-          <Link key={cat?.id} to={`/product-by-categories/${cat?.cate_name}`}>
+          <Link key={cat?.id} to={`/product-by-categories/${cat?.id}`}>
           <VStack key={index} spacing={3} >
             <Box
               w={{ base: "90px", md: "140px" }}
@@ -57,14 +56,14 @@ const Categories = () => {
               _hover={{ transform: "scale(1.05)", transition: "0.3s" }}>
               <Image
                 src={cat.image}
-                alt={cat.cate_name}
+                alt={cat.title}
                 w="100%"
                 h="100%"
-                objectFit="contain"
+                objectFit="cover"
               />
             </Box>
             <Text fontSize={{ base: "sm", md: "14px" }} fontWeight="500">
-              {cat.cate_name}
+              {cat.title}
             </Text>
           </VStack>
           </Link>

@@ -1,10 +1,10 @@
-import { Box, Flex, Heading, Text, Input, Button, VStack, Checkbox, FormControl, FormLabel, FormErrorMessage, useToast,
+import { Box, Flex, Heading, Text, Input, Button, VStack, Checkbox, FormControl, FormLabel, FormErrorMessage, useToast, HStack,
 } from "@chakra-ui/react";
 import seedImg from "../images/growing_seed.png";
 import { useContext, useState } from "react";
 import axios from "axios";
 import { Config } from "./Utils/Config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "./Context/AuthContext";
 
 const Login = () => {
@@ -172,6 +172,10 @@ const Login = () => {
             onClick={handleLogin}>
             Login
           </Button>
+          <HStack>
+            <Text>Don't have an account?</Text>
+         <Link to="/signup">   <Text>Sign Up</Text></Link>
+          </HStack>
         </Flex>
       </Flex>
     </Flex>

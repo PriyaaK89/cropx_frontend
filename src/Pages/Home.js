@@ -10,7 +10,9 @@ const Home = ()=>{
     return(
         <>
         <VStack gap='0px'>
-            <Box width='100%'><TopNavbar/></Box>
+            {/* <Box width='100%'> */}
+                <TopNavbar/>
+                {/* </Box> */}
             <Box><BannerSlider/></Box>
             <Box><Categories/></Box>
             <Box width='100%'><Products/></Box>

@@ -33,7 +33,7 @@ function App() {
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/distributor-request' element={<DistributorFormPage />} />
                 <Route path='/product-details/:id' element={<ProductDetailsPage />} />
-                <Route path='/product-by-categories/:id' element={<ProductByCategoriesPage/>} />
+                <Route path='/products/:level/:id' element={<ProductByCategoriesPage/>} />
                 {/* <Route path='/save-address' element={<CheckoutPage />} /> */}
                 <Route path="/save-address" element={<AddressChecker userId={4}> <CheckoutPage /> </AddressChecker> }/>
                 <Route path='/checkout/payment-mode' element={<PaymentPage />} />

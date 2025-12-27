@@ -51,14 +51,14 @@ const Products = () => {
     <Box p={4} mt="4rem" bg={useColorModeValue("#f4f6f9", "#f4f6f9")} minH="100vh">
       <HStack justifyContent="space-between" padding="0rem 2rem">
         <Text fontSize="18px" fontWeight={600} color="#4d4d4d" padding="1rem 2rem 3rem">
-          Best Selling
+          Top Products
         </Text>
         <Text fontSize="11px" textDecoration="underline">
           View All
         </Text>
       </HStack>
 
-      <Flex flexWrap="wrap" justifyContent="center" gap="2rem">
+      <Flex flexWrap="wrap" justifyContent="center" gap="1rem">
         {products.map((p) => {
           const firstSingle = p.single_packs?.[0];
 
@@ -84,7 +84,7 @@ const Products = () => {
                   overflow="hidden"
                   position="relative"
                   transition="all 0.3s"
-                  width="250px"
+                  width="221px"
                   _hover={{ transform: "scale(1.03)", shadow: "lg" }}>
                   {discountPercent && (
                     <Badge position="absolute" top={0} left={0} background="#2c7d19" color="white" fontWeight={400} rounded="0px 0px 24px" px={3} py={1} fontSize="12px">
@@ -99,9 +99,9 @@ const Products = () => {
                   <Image src={p.product_img} alt={p.product_name} w="100%" h="200px" paddingTop="2rem" objectFit="contain" bg="white" />
 
                   <Box p={4}>
-                    <Text fontWeight="semibold" fontFamily="Inter-SemiBold" fontSize="md" noOfLines={2} lineHeight="19px">
-                      {p.product_name}
-                    </Text>
+                    {/* <Text fontWeight="semibold" fontFamily="Inter-SemiBold" fontSize="16px" noOfLines={2} lineHeight="19px"  overflow="hidden" textOverflow="ellipsis"  whiteSpace="nowrap">  {p.product_name}</Text> */}
+                    <Text fontSize='15px' fontWeight="semibold" color='gray.600' overflow="hidden" textOverflow="ellipsis"  whiteSpace="nowrap">{p?.product_description ? p?.product_description : p?.product_name}</Text>
+                    <Text fontSize='13px' color='gray.800'>{p.brand}</Text>
                     <Text fontSize="12px" color="gray.500">
                       {" "}
                       {p.product_category}{" "}
