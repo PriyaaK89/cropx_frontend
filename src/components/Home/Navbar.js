@@ -37,6 +37,7 @@ export default function TopNavbar() {
   return (
     <>
       <CartDrawer isCartDrawerOpen={isCartDrawerOpen} onCartDrawerClose={onCartDrawerClose} />
+      <Box position="sticky" top="0px" left="0px" bottom="0px" right="0px" zIndex={11} width="100%">
       <Box className="navbar" borderBottom="1px solid #e2e8f0" bg="white" px={10} py={3}>
         <Box width="100%">
           <Flex align="center" justify="space-between">
@@ -114,6 +115,7 @@ export default function TopNavbar() {
         </Box>
       </Box>
     <MenuBar/>
+    </Box>
     </>
   );
 }

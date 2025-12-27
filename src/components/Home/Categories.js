@@ -59,7 +59,7 @@ const Categories = () => {
                 alt={cat.title}
                 w="100%"
                 h="100%"
-                objectFit="contain"
+                objectFit="cover"
               />
             </Box>
             <Text fontSize={{ base: "sm", md: "14px" }} fontWeight="500">
