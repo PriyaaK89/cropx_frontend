@@ -200,9 +200,8 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                 </Box>
               </>
             ) : (
-              cartData.map((product) => (
-                <Box key={product.product_id} mb={5}>
-                  {showFreeDeliveryBar && remainingAmount > 0 && (
+              <>
+               {showFreeDeliveryBar && remainingAmount > 0 && (
                     <Box bg="#f4f0ff" borderRadius="6px" p={3} mb={3}>
                       <HStack spacing={2}>
                         <Box
@@ -231,6 +230,9 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                       </Box>
                     </Box>
                   )}
+                {   cartData.map((product) => (
+                <Box key={product.product_id} mb={5}>
+                 
 
                   <Box>
                     <Box>
@@ -503,7 +505,9 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                   
                   
                 </Box>
-              ))
+              ))}
+              </>
+             
             )}
               <VStack width="96%" mb="4px">
                       <HStack
@@ -529,7 +533,7 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                           width="-webkit-fill-available"
                           fontSize="14px">
                           <Text>Total Price</Text>{" "}
-                          <Text>{priceSummary?.subtotal}</Text>
+                          <Text>{Number(priceSummary?.subtotal).toFixed(2)}</Text>
                         </HStack>
                         <HStack
                           justifyContent="space-between"
@@ -552,7 +556,7 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                 boxShadow="3px 1px 3px #d9d9d9">
                 <VStack gap="0px" alignItems="start">
                   <Text fontSize="18px" fontFamily="Inter-SemiBold">
-                    ₹{priceSummary?.grand_total}
+                    ₹{Number(priceSummary?.grand_total).toFixed(2)}
                   </Text>
                   <Text fontSize="14px" color="gray.600" lineHeight="14px">
                     Net Price

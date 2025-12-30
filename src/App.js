@@ -20,6 +20,10 @@ import TrackOrders from './components/Orders/TrackOrder';
 import ProductByCategoriesPage from './Pages/ProductsByCategories';
 import ProductByHomeCategories from './components/Products/ProductsByHome';
 import ProductListing from './components/Products/ProductListing';
+import AboutUs from './components/AboutUs/About';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsOfService from './Pages/TermsOfServices';
+import FAQ from './Pages/FAQ';
 
 
 function App() {
@@ -44,6 +48,10 @@ function App() {
                 <Route path='/track-order/:orderId' element={<TrackOrders/>}/>
                 <Route path='/product-by-categories/:categoryId' element={<ProductByHomeCategories/>}/>
                 <Route path="/products/:type" element={<ProductListing />} />
+                <Route path='/pages/about-us' element={<AboutUs/>}/>
+                <Route path='/pages/privacy-policy' element={<PrivacyPolicy/>}/>
+                <Route path='/pages/terms-of-services' element={<TermsOfService/>}/>
+                <Route path='/pages/faq' element={<FAQ/>}/>
               </Routes>
             </Router>
           </CartProvider>
