@@ -18,6 +18,12 @@ import OrderSuccess from './Pages/OrderSuccess';
 import OrdersHistoryPage from './Pages/OrderHistoryPage';
 import TrackOrders from './components/Orders/TrackOrder';
 import ProductByCategoriesPage from './Pages/ProductsByCategories';
+import ProductByHomeCategories from './components/Products/ProductsByHome';
+import ProductListing from './components/Products/ProductListing';
+import AboutUs from './components/AboutUs/About';
+import PrivacyPolicy from './Pages/PrivacyPolicy';
+import TermsOfService from './Pages/TermsOfServices';
+import FAQ from './Pages/FAQ';
 
 
 function App() {
@@ -33,13 +39,19 @@ function App() {
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/distributor-request' element={<DistributorFormPage />} />
                 <Route path='/product-details/:id' element={<ProductDetailsPage />} />
-                <Route path='/product-by-categories/:id' element={<ProductByCategoriesPage/>} />
+                <Route path='/products/:level/:id' element={<ProductByCategoriesPage/>} />
                 {/* <Route path='/save-address' element={<CheckoutPage />} /> */}
                 <Route path="/save-address" element={<AddressChecker userId={4}> <CheckoutPage /> </AddressChecker> }/>
                 <Route path='/checkout/payment-mode' element={<PaymentPage />} />
                 <Route path='/order-success/:orderId' element={<OrderSuccess/>}/>
                 <Route path='/order-history' element={<OrdersHistoryPage/>}/>
                 <Route path='/track-order/:orderId' element={<TrackOrders/>}/>
+                <Route path='/product-by-categories/:categoryId' element={<ProductByHomeCategories/>}/>
+                <Route path="/products/:type" element={<ProductListing />} />
+                <Route path='/pages/about-us' element={<AboutUs/>}/>
+                <Route path='/pages/privacy-policy' element={<PrivacyPolicy/>}/>
+                <Route path='/pages/terms-of-services' element={<TermsOfService/>}/>
+                <Route path='/pages/faq' element={<FAQ/>}/>
               </Routes>
             </Router>
           </CartProvider>

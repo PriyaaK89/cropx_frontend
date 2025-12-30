@@ -6,9 +6,9 @@ import ProductsByCategory from "../components/ProductCategory/ProductsbyCategory
 const ProductByCategoriesPage = ()=>{
     return(
         <>
-         <VStack gap='0px'>
-             <Box width='100%'><TopNavbar/></Box>
-             <Box><ProductsByCategory/></Box>
+         <VStack gap='0px'  backgroundColor="#f5f5f5">
+            <TopNavbar/>
+             <Box w="100%"><ProductsByCategory/></Box>
         </VStack>
         </>
     )
