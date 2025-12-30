@@ -139,8 +139,10 @@ const OrderSummary = () => {
                             status: "success",
                         });
                         setTimeout(()=>{
+                            getCartItems()
                              navigate(`/order-success/${placeOrderResponse?.data?.order_id}`);
                         },1500)
+
                     }
 
                 } catch (error) {
@@ -193,6 +195,7 @@ const OrderSummary = () => {
             });
             setTimeout(() => {
                 navigate(`/order-success/${response?.data?.order_id}`);
+                getCartItems()
             }, 1000);
         }
     } catch (error) {
@@ -246,7 +249,7 @@ const OrderSummary = () => {
                                     <Radio value="cod" />
                                     <Text fontWeight="bold">Cash On Delivery (COD)</Text>
                                 </HStack>
-                                <Text fontWeight="bold">{order_summary?.grand_total}</Text>
+                                <Text fontWeight="bold">{Number(order_summary?.grand_total).toFixed(2)}</Text>
                             </Flex>
 
                         </VStack>
@@ -328,7 +331,7 @@ const OrderSummary = () => {
                     <VStack align="stretch" spacing={1}>
                         <Flex justify="space-between">
                             <Text fontSize="14px" color="#4d4d4d">Total Price</Text>
-                            <Text fontSize="14px" color="#4d4d4d" >₹{order_summary?.subtotal}</Text>
+                            <Text fontSize="14px" color="#4d4d4d" >₹{Number(order_summary?.subtotal).toFixed(2)}</Text>
                         </Flex>
 
                         <Flex justify="space-between">
@@ -345,7 +348,7 @@ const OrderSummary = () => {
 
                         <Flex justify="space-between" fontWeight="bold">
                             <Text fontSize="14px" color="#2d2d2d">Net Price</Text>
-                            <Text fontSize="14px" color="#2d2d2d">₹{totalPrice.toFixed(2)}</Text>
+                            <Text fontSize="14px" color="#2d2d2d">₹{Number(totalPrice).toFixed(2)}</Text>
                         </Flex>
 
                         <Box>

@@ -1,9 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Box, Image, Text, Flex, Badge, Spinner, Heading, SimpleGrid, Divider, Card, Stack, Button, HStack, VStack, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, useToast,
+import {
+  Box,
+  Image,
+  Text,
+  Flex,
+  Badge,
+  Spinner,
+  Heading,
+  SimpleGrid,
+  Divider,
+  Card,
+  Stack,
+  Button,
+  HStack,
+  VStack,
+  useToast,
+  Wrap,
+  WrapItem,
+  Tag,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { Config } from "../Utils/Config";
+import organic_icon from "../../images/organic_icon.png"
+import price_tag from "../../images/price_tag.png"
+import cash_on_delivery from "../../images/cod.png"
+import origin_icon from "../../images/earth-location (1).png"
+import inStock_icon from "../../images/express-delivery.png"
+import secure_payment from "../../images/secured-payment.png"
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -88,215 +112,346 @@ export default function ProductDetails() {
   );
 
   return (
-    <Box bg="#f5f7fb" minH="100vh" py={8}>
-      <Box maxW="1280px" mx="auto" px={4}>
-        {/* ------------------ TOP SECTION: IMAGE + DETAILS ------------------ */}
-        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-          {/* LEFT: Images */}
-          <Box>
-            <Card borderRadius="2xl" shadow="xl" overflow="hidden" bg="white">
+    <Box bg="#FAFAFA" minH="100vh" py="24px">
+      <Box maxW="1400px" mx="auto" px="16px">
+        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing="40px">
+          {/* ================= LEFT IMAGE SECTION ================= */}
+          <Box bg="white"
+            borderRadius="8px"
+            border="1px solid #E0E0E0"
+            p="16px" >
+            <Card boxShadow="none"
+            >
               <Image
-                src={ data?.product_img  || selectedImage}
-                alt={data?.product_name}
-                objectFit="contain"
+                src={selectedImage || data?.product_img}
+                h="350px"
                 w="100%"
-                h={{ base: "320px", md: "420px" }}
-                bg="white"
-                p={6}
+                objectFit="contain"
               />
             </Card>
 
-            {/* thumbnails */}
-            <SimpleGrid columns={{ base: 4, md: 4 }} spacing={3} mt={4}>
-              {(data?.details?.images || [{ src: data?.product_img }]).map(
-                (img, i) => (
-                  <Card
-                    key={i}
-                    p={2}
-                    cursor="pointer"
-                    borderRadius="lg"
-                    border={selectedImage === img.src ? "2px solid" : "1px solid"}
-                    borderColor={selectedImage === img.src ? "blue.400" : "gray.200"}
-                    onClick={() => setSelectedImage(img.src)}
-                    bg="white"
-                  >
-                    <Image src={img.src} h="72px" objectFit="cover" />
-                  </Card>
-                )
-              )}
-            </SimpleGrid>
+            <HStack spacing="12px" mt="12px">
+              {(data?.details?.images?.length
+                ? data.details.images
+                : [{ src: data?.product_img }]
+              ).map((img, i) => (
+                <Box
+                  key={i}
+                  border="1px solid #E0E0E0"
+                  p="6px"
+                  borderRadius="4px"
+                  cursor="pointer"
+                  onClick={() => setSelectedImage(img.src)}>
+                  <Image src={img.src} h="60px" objectFit="contain" />
+                </Box>
+              ))}
+            </HStack>
+
+            {/* TRUST BADGES */}
+            <HStack justify="space-between" mt="24px">
+              <VStack gap={0}>
+                <Image src={organic_icon} alt="100% Original" width="40px" />
+                <Text fontSize="14px">100% Original</Text>
+              </VStack>
+              <VStack gap={0}>
+                <Box height="43px" display="flex" alignItems="end"> <Image src={price_tag} alt="Best Prices" width="65px" objectFit="contain" /> </Box>
+                <Text fontSize="14px">Best Prices</Text>
+              </VStack>
+              <VStack gap={0}>
+                <Image src={cash_on_delivery} alt="Cash On Delivery" width="50px" />
+                <Text fontSize="14px">Cash On Delivery</Text>
+              </VStack>
+            </HStack>
           </Box>
 
-          {/* RIGHT: Details */}
+          {/* ================= RIGHT DETAILS ================= */}
           <Box>
-            <Heading size="lg" fontWeight="bold" mb={2}>
-              {data?.product_name}
-            </Heading>
-
-            <Badge colorScheme="blue" p={2} borderRadius="md" fontSize="sm" mb={3}>
-              {data?.product_category}
-            </Badge>
-
-            <Text mt={2} color="gray.600" fontSize="md" lineHeight="tall">
-              {data?.product_description}
-            </Text>
-
-            <Text mt={4} fontWeight="600" color="gray.700">
-              Type: <span style={{ color: "#1a73e8" }}>{data?.product_type}</span>
-            </Text>
-
-            <Divider my={6} />
-
-            {/* Single packs */}
-            <Box mb={6}>
-              <Heading size="md" mb={3}>
-                Available Single Packs
+            <Box height="500px" overflowY="scroll">
+              <Heading fontSize="22px" fontWeight="600">
+                {data?.product_description}
               </Heading>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+              <Text color="gray.600" fontSize="14px">
+                {data?.brand}
+              </Text>
+
+              {/* Rating */}
+              <HStack mt="8px">
+                <HStack spacing="2px">
+                  {Array(5)
+                    .fill("")
+                    .map((_, i) => (
+                      <Text key={i} color="orange.400">
+                        ★
+                      </Text>
+                    ))}
+                </HStack>
+                <Badge bg="black" color="white" fontSize="11px">
+                  {data?.rating?.average}
+                </Badge>
+                <Text color="green.500" fontSize="12px">{data?.rating?.count} Reviews</Text>
+              </HStack>
+
+              {/* PRICE */}
+              <HStack mt="16px" align="center">
+                <Text fontSize="12px" color="gray.600">Price</Text>
+                <Text fontSize="18px" fontWeight="500">
+                  ₹{selectedVariant?.discounted_price || "—"}
+                </Text>
+                <Text
+                  textDecoration="line-through"
+                  color="gray.400"
+                  fontSize="14px">
+                  ₹{selectedVariant?.actual_price}
+                </Text>
+                <Badge bg="#FFA726" color="white">
+                  {selectedVariant?.discount_percent ||
+                    selectedVariant?.discount_percentage}
+                  % OFF
+                </Badge>
+              </HStack>
+
+              <Text color="green.600" mt="4px">
+                Save ₹
+                {selectedVariant
+                  ? (
+                    selectedVariant.actual_price -
+                    selectedVariant.discounted_price
+                  ).toFixed(2)
+                  : ""}
+              </Text>
+
+              <Text fontSize="sm" mt="4px">
+                Inclusive of all taxes
+              </Text>
+
+              {/* SIZE */}
+              <Text mt="16px" fontWeight="600" fontSize="14px">
+                Size
+              </Text>
+
+              {/* SINGLE PACK */}
+              <HStack mt="8px">
                 {data?.single_packs?.map((item) => (
-                  <Card
-                    key={item?.variant_id}
-                    p={4}
-                    shadow="md"
-                    borderRadius="lg"
-                    bg={selectedVariant === item ? "blue.50" : "white"}
+                  <Box
+                    key={item.variant_id}
+                    border="1px solid"
+                    borderColor={
+                      selectedVariant === item ? "#2E7D32" : "#E0E0E0"
+                    }
+                    borderRadius="12px"
+                    // p="12px"
+                    w="180px"
+                    textAlign="center"
                     cursor="pointer"
-                    onClick={() => setSelectedVariant(item)}
-                  >
-                    <Stack spacing={2}>
-                      <Text fontWeight="bold">
-                        {item?.base_quantity_value} {item?.base_quantity_type}
+                    bg={selectedVariant === item ? "#E8F5E9" : "white"}
+                    onClick={() => setSelectedVariant(item)}>
+                    <Badge
+                      bg="#FFA726"
+                      color="white"
+                      mb="8px"
+                      padding="0px 6px 2px"
+                      borderRadius="0px 0px 12px 12px">
+                      {item.discount_percent}% OFF
+                    </Badge>
+                    <VStack gap="4px" mb="4px">
+                      <Text fontWeight="500" fontSize="14px">
+                        {item.base_quantity_value} kg
                       </Text>
-                      <PriceBlock
-                        price={item?.total_discounted_price}
-                        actual={item?.total_actual_price}
-                      />
-                      <HStack justify="space-between">
-                        <Badge colorScheme="green" fontSize="0.8rem">
-                          {item?.discount_percent}% OFF
-                        </Badge>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToCart(item);
-                          }}
-                        >
-                          Add
-                        </Button>
+                      <HStack justifyContent="center">
+                        <Text fontWeight="700" fontSize="14px">
+                          ₹{item.discounted_price}
+                        </Text>
+                        <Text
+                          fontSize="13px"
+                          textDecoration="line-through"
+                          color="gray.400">
+                          ₹{item.actual_price}
+                        </Text>
                       </HStack>
-                    </Stack>
-                  </Card>
+                    </VStack>
+                    <Text
+                      color="purple.600"
+                      fontSize="sm"
+                      bg="#e1e0fa"
+                      borderRadius="0px 0px 12px 12px">
+                      Best Seller
+                    </Text>
+                  </Box>
                 ))}
-              </SimpleGrid>
-            </Box>
+              </HStack>
 
-            {/* Multipacks */}
-            <Box>
-              <Heading size="md" mb={3}>
-                Multipack Options
-              </Heading>
+              {/* MULTIPACK */}
+              <Text mt="24px" fontWeight="600" fontSize="14px">
+                Big Savings on Multipack
+              </Text>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+              <SimpleGrid columns={{ base: 1, md: 3 }} spacing="12px" mt="12px">
                 {data?.multi_packs?.map((mp) => (
-                  <Card
-                    key={mp?.multipack_id} p={4} shadow="md"
-                    borderRadius="lg"
-                    bg={selectedVariant === mp ? "purple.50" : "white"}
-                    cursor="pointer" onClick={() => setSelectedVariant(mp)}>
-                    <Stack spacing={2}>
-                      <Text fontWeight="bold">
-                        {mp?.pack_quantity} × {mp?.base_quantity_value}{" "}
-                        {mp?.base_quantity_type}
+                  <Box
+                    key={mp.multipack_id}
+                    border="1px solid #E0E0E0"
+                    borderRadius="12px"
+                    // p="12px"
+                    cursor="pointer"
+                    textAlign="center"
+                    bg="white"
+                    onClick={() => setSelectedVariant(mp)}>
+                    <Badge
+                      bg="#FFA726"
+                      color="white"
+                      mb="8px"
+                      padding="0px 6px 2px"
+                      borderRadius="0px 0px 12px 12px">
+                      {mp.discount_percentage}% OFF
+                    </Badge>
+                    <VStack gap="4px" mb="4px">
+                      <Text mt="6px" fontSize="14px">
+                        {mp.total_quantity_value} kg (pack of {mp.pack_quantity}
+                        )
                       </Text>
-                      <Text color="gray.600">
-                        Total Qty: <b>{mp?.total_quantity_value}</b>
-                      </Text>
-                      <PriceBlock
-                        price={mp?.total_discounted_price}
-                        actual={mp?.total_actual_price}
-                      />
-                      <HStack justify="space-between">
-                        <Badge colorScheme="purple" fontSize="0.8rem">
-                          {mp?.discount_percentage}% OFF
-                        </Badge>
-                        <Button size="sm" variant="outline"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleAddToCart(mp);
-                          }}>
-                          Add
-                        </Button>
+                      <HStack justifyContent="center">
+                        <Text fontWeight="700" fontSize="14px">
+                          ₹{mp.discounted_price}
+                        </Text>
+                        <Text
+                          fontSize="sm"
+                          textDecoration="line-through"
+                          color="gray.400">
+                          ₹{mp.actual_price}
+                        </Text>{" "}
                       </HStack>
-                    </Stack>
-                  </Card>
+                    </VStack>
+                    <Text color="purple.600" fontSize="sm">
+                      Value Pack
+                    </Text>
+                  </Box>
                 ))}
               </SimpleGrid>
+
+              {/* DELIVERY INFO */}
+              <Box mt="24px" borderTop="1px solid #E0E0E0" pt="16px">
+                {/* <Text fontWeight="600">Deliver to Jaipur, 302021</Text>
+                <Text mt="6px"> Delivery by Wed, 07 Jan</Text> */}
+                <Box>
+                  <HStack><Image src={origin_icon} alt="origin-in-india" width="20px"/><Text mt="3px" fontSize="13px"> Country of Origin: India</Text></HStack>
+                  <HStack><Image src={secure_payment} alt="origin-in-india" width="20px"/><Text mt="3px" fontSize="13px"> Secure Payments</Text></HStack>
+                  <HStack><Image src={inStock_icon} alt="origin-in-india" width="20px"/><Text mt="3px" fontSize="13px">
+                    In stock, Ready to Ship
+                  </Text></HStack>
+                </Box>
+              </Box>
             </Box>
+
+            {/* CTA */}
+            <HStack mt="24px">
+              <Button
+                flex="1"
+                bg="#FF9F1C"
+                color="black"
+                size="lg"
+                onClick={() => handleAddToCart(selectedVariant)}>
+                Add to Cart
+              </Button>
+              <Button
+                flex="1"
+                bg="#2E7D32"
+                color="white"
+                size="lg"
+                onClick={handleGoToCheckout}>
+                Buy Now
+              </Button>
+            </HStack>
           </Box>
         </SimpleGrid>
+      </Box>
 
-        {/* ------------------ BELOW: ORDER SUMMARY ------------------ */}
-        <Box mt={8}>
-          <Card p={5} borderRadius="2xl" shadow="lg" bg="white">
-            <Stack spacing={4}>
-              <Heading size="md">{data?.product_name}</Heading>
-              <Text>
-                {selectedVariant
-                  ? `${selectedVariant?.base_quantity_value} ${selectedVariant?.base_quantity_type}`
-                  : "Select a variant"}
-              </Text>
+      <Box mt="40px">
+        <Stack spacing="32px">
+          <Card p="24px" borderRadius="12px">
+            <Heading fontSize="18px" mb="16px">
+              Product Overview
+            </Heading>
 
-              {selectedVariant && (
-                <>
-                  <PriceBlock
-                    price={selectedVariant?.total_discounted_price}
-                    actual={selectedVariant?.total_actual_price}
-                  />
-                  <HStack spacing={3} align="center">
-                    <Text>Quantity</Text>
-                    <NumberInput
-                      size="sm" maxW="120px" min={1} value={quantity}
-                      onChange={(v) => setQuantity(Number(v))}>
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </HStack>
-                  <Button colorScheme="blue" w="100%" onClick={() => handleAddToCart(selectedVariant)}>
-                    Add to Cart
-                  </Button>
-                  <Button variant="outline" w="100%" onClick={handleGoToCheckout}>
-                    Go to Checkout
-                  </Button>
-                </>
-              )}
-
-              {!selectedVariant && <Text>Select a pack to proceed.</Text>}
-            </Stack>
+            <Wrap spacing="12px">
+              {data?.details?.product_overview?.map((item, i) => (
+                <WrapItem key={i}>
+                  <Tag
+                    size="lg"
+                    bg="#F1F5F9"
+                    color="#1F2937"
+                    borderRadius="full"
+                    px="16px"
+                    py="8px">
+                    {item.name}
+                  </Tag>
+                </WrapItem>
+              ))}
+            </Wrap>
           </Card>
+          <Card p="24px" borderRadius="12px" bg="#F9FAFB">
+            <Heading fontSize="18px" mb="16px">
+              Key Features & Benefits
+            </Heading>
 
-          {/* ------------------ SMALL INFO CARDS ------------------ */}
-          <VStack spacing={3} mt={4} align="stretch">
-            <Card p={4} bg="white" shadow="sm" borderRadius="lg">
-              <Text fontWeight="600">Expert Advice</Text>
-              <Text fontSize="sm" color="gray.600" mt={2}>
-                {data?.details?.expert_advice?.[0]?.name || "No special advice provided."}
-              </Text>
-            </Card>
+            <VStack align="start" spacing="14px">
+              {data?.details?.key_features_and_benefits?.map((item, i) => (
+                <HStack align="start" key={i} spacing="12px">
+                  <Box
+                    bg="#E8F5E9"
+                    color="#2E7D32"
+                    borderRadius="full"
+                    boxSize="28px"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    fontWeight="bold">
+                    ✓
+                  </Box>
 
-            <Card p={4} bg="white" shadow="sm" borderRadius="lg">
-              <Text fontWeight="600">Additional Info</Text>
-              <Text fontSize="sm" color="gray.600" mt={2}>
-                {data?.details?.additional_information?.[0]?.name || "—"}
-              </Text>
-            </Card>
-          </VStack>
-        </Box>
+                  <Text fontSize="15px" color="#374151">
+                    {item.name}
+                  </Text>
+                </HStack>
+              ))}
+            </VStack>
+          </Card>
+          <Card p="24px" borderRadius="12px" border="1px solid #E5E7EB">
+            <HStack mb="16px" spacing="10px">
+              <Box fontSize="20px">👨‍🌾</Box>
+              <Heading fontSize="18px">Expert Advice</Heading>
+            </HStack>
+
+            <VStack align="start" spacing="12px">
+              {data?.details?.expert_advice?.map((item, i) => (
+                <HStack key={i} align="start" spacing="10px">
+                  <Box color="#2E7D32" mt="2px">
+                    ●
+                  </Box>
+                  <Text fontSize="15px" color="#374151">
+                    {item.name}
+                  </Text>
+                </HStack>
+              ))}
+            </VStack>
+          </Card>
+          <Card p="24px" borderRadius="12px" bg="#FFF7ED">
+            <Heading fontSize="18px" mb="16px">
+              Additional Information
+            </Heading>
+
+            <VStack align="start" spacing="12px">
+              {data?.details?.additional_information?.map((item, i) => (
+                <HStack key={i} spacing="10px" align="start">
+                  <Box color="#FB923C">⚠️</Box>
+                  <Text fontSize="15px" color="#374151">
+                    {item.name}
+                  </Text>
+                </HStack>
+              ))}
+            </VStack>
+          </Card>
+        </Stack>
       </Box>
     </Box>
   );

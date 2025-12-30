@@ -28,5 +28,8 @@ export const Config = {
     search_products: `${BASE_URL}api/search`,
     rate_product: `${BASE_URL}rate-product`,
     get_home_categories: `${BASE_URL}home/categories`,
-    get_menu: `${BASE_URL}get-menu`
+    get_menu: `${BASE_URL}get-menu`,
+    get_products_by_home_category: `${BASE_URL}home`,
+    get_best_selling_products: `${BASE_URL}products/best-selling`,
+    get_new_arrivals: `${BASE_URL}products/new-arrivals`
 }
