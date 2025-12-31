@@ -4,7 +4,7 @@ import emptyBagImg from "../../images/Emptybag.png";
 const NoProducts = ({clearFilters}) => {
 
   return (
-    <Box minH="70vh" display="flex" alignItems="center" justifyContent="center" px={4} >
+    <Box minH="65vh" display="flex" alignItems="center" justifyContent="center" px={4}  >
       <VStack gap="0px" textAlign="center">
         <Img src={emptyBagImg} alt="empty bag" maxW={{ base: "100px", md: "150px" }} mt={1} opacity={0.9} />
 

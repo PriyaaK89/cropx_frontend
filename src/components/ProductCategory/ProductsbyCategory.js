@@ -134,7 +134,7 @@ const ProductsByCategory = () => {
                 onSortChange={setSort}
               />{" "}
             </Box>
-            <VStack>
+            <VStack width="98%">
               <Box width={products?.length > 0 ? "98%" : "100%"}  bg="white" padding="16px" margin="14px" borderRadius="5px" boxShadow="0px 2px 3px #e1e1e1">
                 {/* <Flex flexWrap="wrap" justifyContent="center" gap="1rem" bg="white" padding="16px 0px" margin="14px" borderRadius="5px" boxShadow="0px 2px 3px #e1e1e1" width="98%"> */}
 
