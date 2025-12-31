@@ -29,7 +29,7 @@ export default function TopNavbar() {
   const toast = useToast();
   const location = useLocation();
 
-  const hideMenuBarRoutes = ["/about-us", "/privacy-policy", "/terms-of-services", "/faq"];
+  const hideMenuBarRoutes = ["/pages/about-us", "/pages/privacy-policy", "/pages/terms-of-services", "/pages/faq"];
 const hideMenuBar = hideMenuBarRoutes.includes(location.pathname);
 
   const handleLogout = () => {
