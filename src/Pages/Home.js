@@ -20,9 +20,9 @@ const Home = ()=>{
             <Box><BannerSlider/></Box>
             <Box><Categories/></Box>
             {/* <Box width='100%'><Products/></Box> */}
-            <Box mt="2rem"><BestSelling/></Box>
+            <Box mt="2rem" width="100%"><BestSelling/></Box>
             <Box width={'100%'}><FeaturesBar/></Box>
-            <Box mt="2rem"><NewArrivals/></Box>
+            <Box mt="2rem" width="100%"><NewArrivals/></Box>
             <Box width="100%" my="3rem"><AgricultureStats/></Box>
             <Footer/>
         </VStack>

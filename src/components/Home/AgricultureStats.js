@@ -30,7 +30,7 @@ const AgricultureStats = () => {
           <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="700" color="#55b16a">
             400+
           </Text>
-          <Text fontSize="lg" fontWeight="500" color="gray.800">
+          <Text fontSize={{base: "md",md:"lg"}} fontWeight="500" color="gray.800">
             Products
           </Text>
         </Flex>
@@ -39,7 +39,7 @@ const AgricultureStats = () => {
           <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="700" color="#55b16a">
             10M+
           </Text>
-          <Text fontSize="lg" fontWeight="500" color="gray.800">
+          <Text fontSize={{base: "md",md:"lg"}} fontWeight="500" color="gray.800">
             Farmers Served
           </Text>
         </Flex>
@@ -48,7 +48,7 @@ const AgricultureStats = () => {
           <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="700" color="#55b16a">
             5K+
           </Text>
-          <Text fontSize="lg" fontWeight="500" color="gray.800">
+          <Text fontSize={{base: "md",md:"lg"}} fontWeight="500" color="gray.800">
             Distributors
           </Text>
         </Flex>
@@ -57,7 +57,7 @@ const AgricultureStats = () => {
           <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="700" color="#55b16a">
             90%+
           </Text>
-          <Text fontSize="lg" fontWeight="500" color="gray.800">
+          <Text fontSize={{base: "md",md:"lg"}} fontWeight="500" color="gray.800">
             Pincodes Served
           </Text>
         </Flex>

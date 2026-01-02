@@ -14,11 +14,18 @@ import { Link } from "react-router-dom";
 import { FaChevronDown, FaHeart } from "react-icons/fa";
 import { HiPercentBadge } from "react-icons/hi2";
 import ProductQuantityModal from "../Models/ProductQuantityModal";
+import CartDrawer from "../Cart/Cart";
 
 const ProductCard = ({ product }) => {
   const cardBg = useColorModeValue("white", "gray.800");
   const priceColor = useColorModeValue("green.600", "green.300");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const {
+    isOpen: isCartDrawerOpen,
+    onOpen: onCartDrawerOpen,
+    onClose: onCartDrawerClose,
+  } = useDisclosure();
 
   // Get first valid single pack
   const firstSingle = Array.isArray(product.single_packs)
@@ -32,9 +39,7 @@ const ProductCard = ({ product }) => {
       )
     : null;
 
-  const actualPrice = firstSingle
-    ? Number(firstSingle.actual_price)
-    : null;
+  const actualPrice = firstSingle ? Number(firstSingle.actual_price) : null;
 
   const discountedPrice = firstSingle
     ? Number(firstSingle.discounted_price)
@@ -51,9 +56,13 @@ const ProductCard = ({ product }) => {
         <ProductQuantityModal
           isQuantityModalOpen={isOpen}
           onQuantityModalClose={onClose}
-          product={product}
+          product={product} onCartDrawerOpen={onCartDrawerOpen}
         />
       )}
+      <CartDrawer
+        isCartDrawerOpen={isCartDrawerOpen}
+        onCartDrawerClose={onCartDrawerClose}
+      />
 
       <Link to={`/product-details/${product.id}`}>
         <Box
@@ -63,9 +72,8 @@ const ProductCard = ({ product }) => {
           overflow="hidden"
           position="relative"
           transition="all 0.3s"
-          width="220px"
-          _hover={{ transform: "scale(1.03)", shadow: "lg" }}
-        >
+          width={{base:"170px",md:"220px"}}
+          _hover={{ transform: "scale(1.03)", shadow: "lg" }}>
           {/* Discount badge */}
           {discountPercent && (
             <Badge
@@ -78,8 +86,7 @@ const ProductCard = ({ product }) => {
               rounded="0px 0px 24px"
               px={3}
               py={1}
-              fontSize="12px"
-            >
+              fontSize="12px">
               {discountPercent}% OFF
             </Badge>
           )}
@@ -94,19 +101,22 @@ const ProductCard = ({ product }) => {
             src={product.product_img}
             alt={product.product_name}
             w="100%"
-            h="200px"
+            h={{base:"175px",lg:"200px"}}
             pt="2rem"
             objectFit="contain"
             bg="white"
           />
 
           {/* Product Info */}
-          <Box p={4}>
+          <Box p={{base:2,lg:4}}>
             <Text
               fontWeight="semibold"
-              fontSize="md"
+              fontSize={{base:"14px",lg:"md"}}
               noOfLines={2}
-              lineHeight="19px" overflow="hidden" textOverflow="ellipsis" whiteSpace="nowrap">
+              lineHeight="19px"
+              overflow="hidden"
+              textOverflow="ellipsis"
+              whiteSpace="nowrap">
               {product.product_name}
             </Text>
 
@@ -118,19 +128,10 @@ const ProductCard = ({ product }) => {
               <>
                 {/* Price */}
                 <Flex align="center" mt={2}>
-                  <Text
-                    fontSize="lg"
-                    fontWeight="600"
-                    color={priceColor}
-                  >
+                  <Text fontSize="lg" fontWeight="600" color={priceColor}>
                     ₹{discountedPrice}
                   </Text>
-                  <Text
-                    as="s"
-                    fontSize="12px"
-                    color="gray.400"
-                    ml={2}
-                  >
+                  <Text as="s" fontSize="12px" color="gray.400" ml={2}>
                     ₹{actualPrice}
                   </Text>
                 </Flex>
@@ -162,11 +163,9 @@ const ProductCard = ({ product }) => {
                       e.preventDefault();
                       e.stopPropagation();
                       onOpen();
-                    }}
-                  >
+                    }}>
                     <Text fontSize="14px">
-                      {firstSingle.quantity_value}{" "}
-                      {firstSingle.quantity_type}
+                      {firstSingle.quantity_value} {firstSingle.quantity_type}
                     </Text>
                     <Icon as={FaChevronDown} boxSize={4} />
                   </Flex>

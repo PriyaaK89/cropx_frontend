@@ -30,7 +30,7 @@ const FeaturesBar = () => {
             px={6}
             py={4}
             borderRadius="2xl"
-            boxShadow="sm"
+            boxShadow="sm" width={{base: "80%",md:"25%"}}
             _hover={{ boxShadow: "md", transform: "translateY(-2px)" }}
             transition="all 0.2s"
           >

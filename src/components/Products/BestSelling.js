@@ -32,7 +32,7 @@ const BestSelling = () => {
   }, []);
 
   return (
-    <Box px={4} pt={2} pb={8} mt="1rem" bg={bg}>
+    <Box px={{base:1, md:4}} pt={2} pb={8} mt="1rem" bg={bg}>
       {/* Header */}
       <HStack justify="space-between" px="2rem" py={4} mb="8px">
         <Text fontSize="18px" fontWeight={600} color="#4d4d4d">
@@ -47,13 +47,13 @@ const BestSelling = () => {
       </HStack>
 
       {/* Products */}
-      <Box px={10}>
+      <Box px={{base: 0,md:10}}>
         {products.length === 0 ? (
           <Text>No products found</Text>
         ) : (
           <SimpleGrid
-            columns={{ base: 1, sm: 2, md: 3, lg: 5 }}
-            spacing="20px"
+            columns={{ base: 2, sm: 2, md: 3, lg: 5 }}
+            spacing={{base:"8px",md:"20px"}}
           >
             {products.slice(0, 5).map((product) => (
               <ProductCard key={product.id} product={product} />
