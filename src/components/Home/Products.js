@@ -6,6 +6,7 @@ import { HiPercentBadge } from "react-icons/hi2";
 import { Config } from "../Utils/Config";
 import ProductQuantityModal from "../Models/ProductQuantityModal";
 import { Link, useNavigate } from "react-router-dom";
+import CartDrawer from "../Cart/Cart";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -44,7 +45,11 @@ const Products = () => {
     return Math.round(percent);
   };
 
-
+    const {
+      isOpen: isCartDrawerOpen,
+      onOpen: onCartDrawerOpen,
+      onClose: onCartDrawerClose,
+    } = useDisclosure();
 
   return (
     <>
@@ -161,9 +166,13 @@ const Products = () => {
         <ProductQuantityModal
           isQuantityModalOpen={isQuantityModalOpen}
           onQuantityModalClose={onQuantityModalClose}
-          product={selectedProduct}
+          product={selectedProduct} onCartDrawerOpen={onCartDrawerOpen}
         />
       )}
+            <CartDrawer
+              isCartDrawerOpen={isCartDrawerOpen}
+              onCartDrawerClose={onCartDrawerClose}
+            />
     </Box>
     </>
   );

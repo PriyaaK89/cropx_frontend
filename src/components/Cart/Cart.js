@@ -509,13 +509,13 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
               </>
              
             )}
-              <VStack width="96%" mb="4px">
+              <VStack width="96%" mb="4px" position={{base:"absolute", md:"initial"}} bottom={{base:"7px"}}>
                       <HStack
                         padding="4px 10px"
                         background="linear-gradient(46deg, #e6f7e4, transparent)"
                         borderRadius="5px"
                         margin="0px 0px"
-                        width="68%">
+                        width={{base:"95%",md:"95%"}}>
                         <HiReceiptPercent fill="#4b9451" fontSize="19px" />
                         <Text
                           fontSize="13px"
@@ -524,7 +524,7 @@ const CartDrawer = ({ isCartDrawerOpen, onCartDrawerClose }) => {
                           Pay online & save 2% or more instantly.
                         </Text>
                       </HStack>
-                      <VStack alignItems="baseline" gap="4px" width="96%">
+                      <VStack alignItems="baseline" gap="4px" width={{ base:"93%", lg:"96%"}} >
                         <Text fontFamily="Inter-Medium" fontSize="14px">
                           Billing Details
                         </Text>

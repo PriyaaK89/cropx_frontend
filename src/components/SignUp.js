@@ -84,13 +84,13 @@ const [formData, setFormData] = useState({
 
   return (
     <Flex bg="#bdd6c3" minH="100vh" align="center" justify="center" p="0">
-      <Flex w="75%" maxW="1200px" bg="#bdd6c3" backdropFilter="blur(12px)" rounded="30px" overflow="hidden" boxShadow="0 0 35px rgba(0,0,0,0.4)">
+      <Flex w={{ base: "92%", sm: "92%", lg: "75%" }} maxW="1200px" bg="#bdd6c3" backdropFilter="blur(12px)" rounded="30px" overflow="hidden" boxShadow="0 0 35px rgba(0,0,0,0.4)">
 
-        <Box flex="1">
+        <Box flex="1" display={{ base: "none", sm: "none", md: "block", lg: "block" }}>
           <Box w="100%" h="100%" bgImage={seedImg} bgSize="cover" bgPos="center" />
         </Box>
 
-        <Flex flex="1" bg="#467b49d9" p="40px" direction="column" justify="center" color="white">
+        <Flex flex="1" bg="#467b49d9" p={{ base: "40px 20px", lg: " 40px" }} direction="column" justify="center" color="white">
           
           <Heading mb="10px" textAlign="center" fontWeight="600">Sign Up</Heading>
           <Text fontSize="sm" mb="15px" textAlign="center" opacity=".8">Join CropX Platform</Text>
@@ -115,17 +115,21 @@ const [formData, setFormData] = useState({
             </FormControl>
           </VStack>
 
-          <Checkbox name="isDistributor" mb="25px" colorScheme="green" isChecked={formData.isDistributor} onChange={handleChange}>
+          <Checkbox name="isDistributor" mb="25px" colorScheme="green" isChecked={formData.isDistributor} onChange={handleChange}   sx={{
+              ".chakra-checkbox__label": {
+                fontSize: { base: "14px", sm: "14px", md: "16px", lg: "16px" },
+              },
+            }}>
             Are you a distributor?
           </Checkbox>
 
-          <Button bg="#d6f5b3" color="black" size="lg" height='36px' rounded="full" fontWeight="600" _hover={{ bg:"#eaffcc" }} onClick={handleSignup}>
+          <Button bg="#d6f5b3" color="black" fontSize={{base: "15px",sm: "15px", md: "16px", lg: "16px"}} size="lg" height='36px' rounded="full" fontWeight="600" _hover={{ bg:"#eaffcc" }} onClick={handleSignup}>
             Sign Up
           </Button>
 
-          <HStack justify="flex-end" mt="10px" gap='0.2rem'>
+          <HStack justify="start" mt="6px" gap='0.2rem'>
             <Text fontSize="sm" opacity={0.7}>Already have an account?</Text>
-            <Button variant="link" color="white" fontSize='14px' onClick={()=>navigate('/login')}>Login</Button>
+            <Button variant="link" color="white" fontSize='14px' textDecoration="underline" onClick={()=>navigate('/login')}>Login</Button>
           </HStack>
 
         </Flex>

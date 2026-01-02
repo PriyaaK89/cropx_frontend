@@ -35,7 +35,7 @@ const Categories = () => {
   return (
     <Box mt="3rem" textAlign="center" px={{ base: 4, md: 10 }}>
       <Box marginBottom='2rem'>
-        <Text fontFamily='Inter-SemiBold' fontSize="20px" color="#4d4d4d" fontWeight="500" mb="10px">
+        <Text fontFamily='Inter-SemiBold' fontSize={{base: "16px",md:"20px"}} color="#4d4d4d" fontWeight="500" mb="10px">
           Categories
         </Text>
         <Divider orientation="horizontal" borderColor='#b1aeae' />
@@ -43,7 +43,7 @@ const Categories = () => {
 
       <SimpleGrid
         columns={{ base: 3, md: 6 }}
-        spacing={{ base: 6, md: 10 }}
+        spacing={{ base: 4, md: 10 }}
         justifyItems="center">
         {categories.map((cat, index) => (
           <Link key={cat?.id} to={`/product-by-categories/${cat?.id}`}>

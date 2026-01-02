@@ -19,6 +19,7 @@ import { HiPercentBadge } from "react-icons/hi2";
 import ProductQuantityModal from "../Models/ProductQuantityModal";
 import TopNavbar from "../Home/Navbar";
 import Footer from "../Home/Footer";
+import CartDrawer from "../Cart/Cart";
 
 const ProductByHomeCategories = () => {
   const { categoryId } = useParams();
@@ -33,6 +34,11 @@ const ProductByHomeCategories = () => {
     onOpen: onQuantityModalOpen,
     onClose: onQuantityModalClose,
   } = useDisclosure();
+    const {
+      isOpen: isCartDrawerOpen,
+      onOpen: onCartDrawerOpen,
+      onClose: onCartDrawerClose,
+    } = useDisclosure();
 
   const handleOpenModal = (product) => {
     setSelectedProduct(product);
@@ -68,9 +74,13 @@ const ProductByHomeCategories = () => {
         <ProductQuantityModal
           isQuantityModalOpen={isQuantityModalOpen}
           onQuantityModalClose={onQuantityModalClose}
-          product={selectedProduct}
+          product={selectedProduct} onCartDrawerOpen={onCartDrawerOpen}
         />
       )}
+            <CartDrawer
+              isCartDrawerOpen={isCartDrawerOpen}
+              onCartDrawerClose={onCartDrawerClose}
+            />
       <TopNavbar />
       <Box px={10} my="3rem">
         {products.length === 0 ? (
