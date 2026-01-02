@@ -52,11 +52,11 @@ const BannerSlider = () => {
   ref={emblaRef} 
   overflow="hidden" 
   ml="calc(-50vw + 50%)" 
-  h="366px"
+   h={{base: "109px", sm: "109px",md:"366px",lg:"366px"}}
 >
-  <Box display="flex" h="366px">
+  <Box display="flex" h={{base: "109px", sm: "109px",md:"366px",lg:"366px"}}>
     {banners.map((item, index) => (
-      <Box key={index} flex="0 0 100%" h="366px">
+      <Box key={index} flex="0 0 100%" h={{base: "109px",sm: "109px", md:"366px",lg:"366px"}}>
         <Image
           src={item.banner_img}
           w="100%"
@@ -69,12 +69,12 @@ const BannerSlider = () => {
 </Box>
 
       {/* dots */}
-      <Box display="flex" justifyContent="center" gap={2} mt={2} position='absolute' bottom='10px' width='100%'>
+      <Box display="flex" justifyContent="center" gap={{base:1, sm: 1, md: 2,lg:2}} mt={2} position='absolute' bottom='10px' width='100%'>
         {banners.map((_, index) => (
           <Box
             key={index}
-            w="10px"
-            h="10px"
+            w={{base: "6px", sm: "6px", md: "10px",lg:"10px"}}
+            h={{base: "6px", sm: "6px", md: "10px",lg:"10px"}}
             borderRadius="full"
             bg={index === selectedIndex ? "teal.500" : "gray.400"}
             cursor="pointer"

@@ -1,4 +1,17 @@
-import { Box, Flex, Heading, Text, Input, Button, VStack, Checkbox, FormControl, FormLabel, FormErrorMessage, useToast, HStack,
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Input,
+  Button,
+  VStack,
+  Checkbox,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  useToast,
+  HStack,
 } from "@chakra-ui/react";
 import seedImg from "../images/growing_seed.png";
 import { useContext, useState } from "react";
@@ -20,7 +33,7 @@ const Login = () => {
     // Validate input fields
     let newErrors = {};
     if (!email.trim()) newErrors.email = "Email is required.";
-    else if (!emailPattern.test(email))
+    else if (!emailPattern?.test(email))
       newErrors.email = "Enter a valid email.";
     if (!password.trim()) newErrors.password = "Password is required.";
     setErrors(newErrors);
@@ -77,7 +90,7 @@ const Login = () => {
   return (
     <Flex bg="#bdd6c3" minH="100vh" align="center" justify="center" p="0">
       <Flex
-        w="75%"
+        w={{ base: "92%", sm: "92%", lg: "75%" }}
         maxW="1200px"
         bg="#bdd6c3"
         backdropFilter="blur(12px)"
@@ -85,7 +98,9 @@ const Login = () => {
         overflow="hidden"
         boxShadow="0 0 35px rgba(0,0,0,0.4)">
         {/* LEFT IMAGE */}
-        <Box flex="1">
+        <Box
+          flex="1"
+          display={{ base: "none", sm: "none", md: "block", lg: "block" }}>
           <Box
             w="100%"
             h="100%"
@@ -99,7 +114,7 @@ const Login = () => {
         <Flex
           flex="1"
           bg="#467b49d9"
-          p="60px 40px"
+          p={{ base: "40px 20px", lg: "60px 40px" }}
           direction="column"
           justify="center"
           color="white">
@@ -157,14 +172,21 @@ const Login = () => {
             </FormControl>
           </VStack>
 
-          <Checkbox colorScheme="green" mb="18px" fontSize="sm">
+          <Checkbox
+            colorScheme="green"
+            mb="18px"
+            sx={{
+              ".chakra-checkbox__label": {
+                fontSize: { base: "14px", sm: "14px", md: "16px", lg: "16px" },
+              },
+            }}>
             Remember Me
           </Checkbox>
 
           <Button
             bg="#d6f5b3"
             color="black"
-            size="lg"
+            size="lg" fontSize={{base: "15px",sm: "15px", md: "16px", lg: "16px"}}
             height="36px"
             rounded="full"
             fontWeight="600"
@@ -172,9 +194,11 @@ const Login = () => {
             onClick={handleLogin}>
             Login
           </Button>
-          <HStack>
-            <Text>Don't have an account?</Text>
-         <Link to="/signup">   <Text>Sign Up</Text></Link>
+          <HStack mt="6px">
+            <Text fontSize={{base: "14px",sm: "14px", md: "16px", lg: "16px"}}>Don't have an account?</Text>
+            <Link to="/signup" style={{textDecoration: "underline"}}>
+              <Text fontSize={{base: "14px",sm: "14px", md: "16px", lg: "16px"}}>Sign Up</Text>
+            </Link>
           </HStack>
         </Flex>
       </Flex>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Image,
@@ -19,25 +19,42 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AuthContext } from "../Context/AuthContext";
-import CartDrawer from "../Cart/Cart";
-import { Config } from "../Utils/Config";
-import axios from "axios";
 import { CartContext } from "../Context/CartContext";
 import LoginModal from "./LoginModal";
+import useCartQuantityManager from "../../hooks/userCartAction";
 
 const ProductQuantityModal = ({
   isQuantityModalOpen,
   onQuantityModalClose,
-  product,
+  product, onCartDrawerOpen
 }) => {
   const { user } = useContext(AuthContext);
-  const userId = user?.data?.id;
+   const userId = user?.data?.id;
   console.log(userId, "UserId");
+    const toast = useToast();
+  // const [quantities, setQuantities] = useState({});
+  const { cartItems, cartData, getCartItems } = useContext(CartContext);
+    const {
+    isOpen: isLoginModalOpen,
+    onOpen: onLoginModalOpen,
+    onClose: onLoginModalClose,
+  } = useDisclosure();
+  const {
+  quantities,
+  handleIncrease,
+  handleDecrease,
+  syncQuantitiesFromCart,
+} = useCartQuantityManager({
+  userId,
+  product,
+  cartData,
+  getCartItems,
+  onLoginModalOpen,
+});
+ 
   console.log(product, "ProductData");
   console.log(product?.id, "productId");
-  const toast = useToast();
-  const [quantities, setQuantities] = useState({});
-  const { cartItems, cartData, getCartItems } = useContext(CartContext);
+
 
   useEffect(() => {
     if (userId) {
@@ -45,24 +62,12 @@ const ProductQuantityModal = ({
     }
   }, [userId]);
 
+
   useEffect(() => {
-    if (!isQuantityModalOpen) return;
-    if (!product) return;
-    if (!cartData || cartData.length === 0) return;
+  if (!isQuantityModalOpen) return;
 
-    syncQuantitiesFromCart();
-  }, [isQuantityModalOpen, cartData, product]);
-
-  const {
-    isOpen: isCartDrawerOpen,
-    onOpen: onCartDrawerOpen,
-    onClose: onCartDrawerClose,
-  } = useDisclosure();
-  const {
-    isOpen: isLoginModalOpen,
-    onOpen: onLoginModalOpen,
-    onClose: onLoginModalClose,
-  } = useDisclosure();
+  syncQuantitiesFromCart();
+}, [isQuantityModalOpen, cartData, syncQuantitiesFromCart]);
 
   const cardBg = useColorModeValue("white", "gray.800");
 
@@ -76,91 +81,11 @@ const ProductQuantityModal = ({
     (item) => item.product_id === product?.id
   );
 
-  const handleIncrease = async ({ variant_id, multipack_id }) => {
-    // const key = multipack_id ? multipack_id : variant_id;
-    const key = multipack_id ? `multi_${multipack_id}` : `single_${variant_id}`;
-    if (!userId) {
-      toast({
-        description: "Please login first to add items to cart!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      onLoginModalOpen();
-      return;
-    }
-    try {
-      const payload = {
-        user_id: userId,
-        product_id: product.id,
-        quantity: 1,
-        variant_id: variant_id || null,
-        multipack_id: multipack_id || null,
-      };
-
-      const response = await axios.post(Config.Add_to_cart, payload);
-
-      if (response.status === 200) {
-        setQuantities((prev) => ({
-          ...prev,
-          [key]: (prev[key] || 0) + 1,
-        }));
-        getCartItems();
-        toast({
-          description: "Item is added to cart successfully.",
-        })
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handleDecrease = async ({ variant_id, multipack_id }) => {
-    const key = multipack_id ? `multi_${multipack_id}` : `single_${variant_id}`;
-
-    try {
-      const response = await axios.post(Config.decrease_item, {
-        user_id: userId,
-        product_id: product.id,
-        variant_id,
-        multipack_id,
-      });
-
-      if (response.status === 200) {
-        setQuantities((prev) => ({
-          ...prev,
-          [key]: (prev[key] || 0) - 1,
-        }));
-        getCartItems();
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const syncQuantitiesFromCart = () => {
-    const productId = product?.id ?? product?.product_id;
-    const item = cartData?.find((p) => p.product_id === productId);
-    if (!item) {
-      setQuantities({});
-      return;
-    }
-    let q = {};
-
-    item.single_packs?.forEach((sp) => {
-      q[`single_${sp.variant_id}`] = sp.cart_quantity;
-    });
-
-    item.multi_packs?.forEach((mp) => {
-      q[`multi_${mp.multipack_id}`] = mp.cart_quantity;
-    });
-
-    setQuantities(q);
-  };
-
   const handleOpenDrawer = () => {
-    onCartDrawerOpen();
     onQuantityModalClose();
+    setTimeout(()=>{
+      onCartDrawerOpen();
+    },300)
   };
 
   return (
@@ -169,10 +94,7 @@ const ProductQuantityModal = ({
         isLoginModalOpen={isLoginModalOpen}
         onLoginModalClose={onLoginModalClose}
       />
-      <CartDrawer
-        isCartDrawerOpen={isCartDrawerOpen}
-        onCartDrawerClose={onCartDrawerClose}
-      />
+
 
       <Modal
         isOpen={isQuantityModalOpen}
@@ -427,17 +349,10 @@ const ProductQuantityModal = ({
                                 </Button>
                               )}
 
-                              {/* Quantity Box */}
-                              <Box
-                                bg="green.600"
-                                color="white"
-                                px={6}
-                                py={1}
-                                fontWeight="bold">
+                              <Box bg="green.600" color="white" px={6} py={1} fontWeight="bold">
                                 {quantities[key]}
                               </Box>
 
-                              {/* Increase Button */}
                               <Button
                                 onClick={() =>
                                   handleIncrease({
