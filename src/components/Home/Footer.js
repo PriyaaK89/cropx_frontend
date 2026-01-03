@@ -51,6 +51,7 @@ const Footer = () => {
             </Text>
 
             <Link to="/pages/about-us">About Us</Link>
+            <Link to="/pages/contact-us">Contact Us</Link>
             {/* <Link>Reach Us</Link>
             <Link>Media Links</Link> */}
             <Link to="/pages/privacy-policy">Privacy Policy</Link>

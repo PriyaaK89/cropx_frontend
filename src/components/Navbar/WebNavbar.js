@@ -47,7 +47,7 @@ export default function WebNavbar() {
     "/pages/about-us",
     "/pages/privacy-policy",
     "/pages/terms-of-services",
-    "/pages/faq", "/pages/refund-policy", "/pages/delivery-policy"
+    "/pages/faq", "/pages/refund-policy", "/pages/delivery-policy", "/pages/contact-us"
   ];
   const hideMenuBar = hideMenuBarRoutes.includes(location.pathname);
 
