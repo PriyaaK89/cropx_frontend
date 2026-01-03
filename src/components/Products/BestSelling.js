@@ -1,13 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Config } from "../Utils/Config";
-import {
-  Box,
-  HStack,
-  SimpleGrid,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, HStack, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 

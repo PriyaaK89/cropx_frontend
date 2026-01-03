@@ -24,6 +24,9 @@ import AboutUs from './components/AboutUs/About';
 import PrivacyPolicy from './Pages/PrivacyPolicy';
 import TermsOfService from './Pages/TermsOfServices';
 import FAQ from './Pages/FAQ';
+import ScrollToTop from './components/Utils/ScrollToTop';
+import ReturnRefundPolicy from './Pages/ReturnRefundPolicy';
+import ShippingDeliveryInfo from './Pages/DeliveryPolicy';
 
 
 function App() {
@@ -33,6 +36,7 @@ function App() {
         <AuthProvider>
           <CartProvider>
             <Router>
+              <ScrollToTop/>
               <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/signup' element={<SignupPage />} />
@@ -52,6 +56,8 @@ function App() {
                 <Route path='/pages/privacy-policy' element={<PrivacyPolicy/>}/>
                 <Route path='/pages/terms-of-services' element={<TermsOfService/>}/>
                 <Route path='/pages/faq' element={<FAQ/>}/>
+                <Route path='/pages/refund-policy' element={<ReturnRefundPolicy/>}/>
+                <Route path='/pages/delivery-policy' element={<ShippingDeliveryInfo/>}/>
               </Routes>
             </Router>
           </CartProvider>
