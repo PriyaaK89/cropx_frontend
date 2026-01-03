@@ -31,5 +31,6 @@ export const Config = {
     get_menu: `${BASE_URL}get-menu`,
     get_products_by_home_category: `${BASE_URL}home`,
     get_best_selling_products: `${BASE_URL}products/best-selling`,
-    get_new_arrivals: `${BASE_URL}products/new-arrivals`
+    get_new_arrivals: `${BASE_URL}products/new-arrivals`,
+    contact_us: `${BASE_URL}api/contact`
 }

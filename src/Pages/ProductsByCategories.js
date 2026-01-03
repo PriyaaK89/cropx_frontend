@@ -8,7 +8,7 @@ const ProductByCategoriesPage = ()=>{
     return(
         <>
          <VStack gap='0px'  backgroundColor="#f5f5f5">
-            <TopNavbar/>
+          <Box position="sticky" top="0" left="0" bottom="0" right="0" zIndex={11} width='100%'>  <TopNavbar/> </Box>
              <Box w="100%"><ProductsByCategory/></Box>
              <Footer/>
         </VStack>

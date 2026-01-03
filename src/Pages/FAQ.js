@@ -67,7 +67,7 @@ const FAQ = () => {
         color="white"
       >
         <Container maxW="5xl">
-          <Heading size="lg" mb={3}>
+          <Heading fontSize="32px" mb={3}>
             Frequently Asked Questions
           </Heading>
           <Text fontSize="md" opacity={0.95}>
