@@ -27,6 +27,7 @@ import FAQ from './Pages/FAQ';
 import ScrollToTop from './components/Utils/ScrollToTop';
 import ReturnRefundPolicy from './Pages/ReturnRefundPolicy';
 import ShippingDeliveryInfo from './Pages/DeliveryPolicy';
+import ContactUs from './Pages/ContactUs';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
                 <Route path='/pages/faq' element={<FAQ/>}/>
                 <Route path='/pages/refund-policy' element={<ReturnRefundPolicy/>}/>
                 <Route path='/pages/delivery-policy' element={<ShippingDeliveryInfo/>}/>
+                <Route path='/pages/contact-us' element={<ContactUs/>}/>
               </Routes>
             </Router>
           </CartProvider>
