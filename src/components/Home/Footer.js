@@ -1,24 +1,13 @@
-import {
-  Box,
-  Flex,
-  Text,
-  Stack,
-  Button,
-  Image,
-  SimpleGrid,
-  HStack,
-} from "@chakra-ui/react";
-import { FaInstagram, FaFacebook, FaYoutube, FaLinkedin } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { Box, Text, Stack, Button, SimpleGrid } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+
   return (
     <Box bg="#0e543f" color="gray.300" pt={14}>
       <Box maxW="7xl" mx="auto" px={{ base: 6, md: 12 }}>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={12}>
           
-          {/* LEFT – ABOUT */}
           <Stack spacing={5}>
             <Text fontSize="2xl" fontWeight="700" color="green.400">
               CropX Genetic
@@ -38,9 +27,6 @@ const Footer = () => {
               long-term agricultural growth.
             </Text>
 
-            
-          
-
             {/* Social Icons */}
             {/* <HStack spacing={4}>
               <Link><FaInstagram size={22} /></Link>
@@ -52,7 +38,14 @@ const Footer = () => {
           </Stack>
 
           {/* MIDDLE – QUICK LINKS */}
-          <Stack spacing={4}>
+          <Stack spacing={4}  sx={{
+    a: {
+      fontSize: "14px",
+      _hover: {
+        color: "white"
+      },
+    },
+  }}>
             <Text fontSize="lg" fontWeight="600" color="green.400">
               Quick Links
             </Text>
@@ -61,10 +54,9 @@ const Footer = () => {
             {/* <Link>Reach Us</Link>
             <Link>Media Links</Link> */}
             <Link to="/pages/privacy-policy">Privacy Policy</Link>
-            {/* <Link>Return & Refund Policy</Link> */}
+            <Link to="/pages/refund-policy">Return & Refund Policy</Link>
             <Link to="/pages/terms-of-services">Terms of Service</Link>
-            {/* <Link>Careers</Link>
-            <Link>Shipping / Delivery Policy</Link> */}
+            <Link to="/pages/delivery-policy">Shipping / Delivery Policy</Link> 
             <Link to="/pages/faq">FAQ</Link>
             {/* <Link>Sitemap</Link> */}
           </Stack>
@@ -76,8 +68,8 @@ const Footer = () => {
             </Text>
 
             <Stack spacing={2}>
-              <Text>Missed Call To Order:</Text>
-              <Button
+              <Text fontSize="14px">Missed Call To Order:</Text>
+              <Button fontSize="15px"
                 bg="orange.400"
                 color="white"
                 w="fit-content"
@@ -88,10 +80,10 @@ const Footer = () => {
             </Stack>
 
             <Stack spacing={2}>
-              <Text>Whatsapp:</Text>
+              <Text fontSize="14px">Whatsapp:</Text>
               <Button
                 bg="orange.400"
-                color="white"
+                color="white" fontSize="15px"
                 w="fit-content"
                 _hover={{ bg: "orange.500" }}
               >
