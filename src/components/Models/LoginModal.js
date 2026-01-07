@@ -1,7 +1,7 @@
-import { Box, Button, Checkbox, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useToast, VStack } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import seedImg from "../../images/growing_seed.png";
 import { Config } from "../Utils/Config";
 import axios from "axios";
@@ -149,9 +149,9 @@ const LoginModal = ({isLoginModalOpen, onLoginModalClose})=>{
                   </FormControl>
                 </VStack>
 
-                <Checkbox colorScheme="green" mb="18px" fontSize="sm">
+                {/* <Checkbox colorScheme="green" mb="18px" fontSize="sm">
                   Remember Me
-                </Checkbox>
+                </Checkbox> */}
 
                 <Button
                   bg="#d6f5b3"
@@ -159,12 +159,18 @@ const LoginModal = ({isLoginModalOpen, onLoginModalClose})=>{
                   size="lg"
                   height="36px"
                   rounded="full"
-                  fontWeight="600"
+                  fontWeight="600" mt="1rem"
                   _hover={{ bg: "#eaffcc" }}
                   onClick={handleLogin}
                 >
                   Login
                 </Button>
+                 <HStack mt="6px">
+                            <Text fontSize={{base: "14px",sm: "14px", md: "16px", lg: "16px"}}>Don't have an account?</Text>
+                            <Link to="/signup" style={{textDecoration: "underline"}}>
+                              <Text fontSize={{base: "14px",sm: "14px", md: "16px", lg: "16px"}}>Sign Up</Text>
+                            </Link>
+                          </HStack>
               </Flex>
             </Flex>
           </Flex>
