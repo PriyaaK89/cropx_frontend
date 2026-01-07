@@ -8,6 +8,7 @@ import TopNavbar from "../Home/Navbar";
 import { AuthContext } from "../Context/AuthContext";
 import { Config } from "../Utils/Config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
   
@@ -15,6 +16,8 @@ export default function Checkout() {
   const { user } = useContext(AuthContext);
   const userId = user?.data?.id;
   const toast = useToast();
+
+  const navigate = useNavigate()
 
   // WATCH PINCODE FIELD
   const pincodeValue = watch("pincode");
@@ -90,6 +93,9 @@ export default function Checkout() {
           status: "success",
         });
         reset();
+        setTimeout(()=>{
+          navigate('/checkout/payment-mode')
+        },1000)
       }
     } catch (error) {
       console.error("Address Save Error:", error);

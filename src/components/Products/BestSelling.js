@@ -5,7 +5,6 @@ import { Box, HStack, SimpleGrid, Text, useColorModeValue } from "@chakra-ui/rea
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
 
-
 const BestSelling = () => {
   const [products, setProducts] = useState([]);
   const bg = useColorModeValue("#f4f6f9", "#f4f6f9");
@@ -29,14 +28,10 @@ const BestSelling = () => {
     <Box px={{base:1, md:4}} pt={2} pb={8} mt="1rem" bg={bg}>
       {/* Header */}
       <HStack justify="space-between" px="2rem" py={4} mb="8px">
-        <Text fontSize="18px" fontWeight={600} color="#4d4d4d">
-          Best Selling
-        </Text>
+        <Text fontSize="18px" fontWeight={600} color="#4d4d4d"> Best Selling </Text>
 
         <Link to="/products/best-selling">
-          <Text fontSize="11px" textDecoration="underline" cursor="pointer">
-            View All
-          </Text>
+          <Text fontSize="11px" textDecoration="underline" cursor="pointer"> View All </Text>
         </Link>
       </HStack>
 

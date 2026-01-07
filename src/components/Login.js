@@ -172,23 +172,21 @@ const Login = () => {
             </FormControl>
           </VStack>
 
-          <Checkbox
-            colorScheme="green"
-            mb="18px"
+          {/* <Checkbox colorScheme="green" mb="18px"
             sx={{
               ".chakra-checkbox__label": {
                 fontSize: { base: "14px", sm: "14px", md: "16px", lg: "16px" },
               },
             }}>
             Remember Me
-          </Checkbox>
+          </Checkbox> */}
 
           <Button
             bg="#d6f5b3"
             color="black"
             size="lg" fontSize={{base: "15px",sm: "15px", md: "16px", lg: "16px"}}
             height="36px"
-            rounded="full"
+            rounded="full" mt="1rem"
             fontWeight="600"
             _hover={{ bg: "#eaffcc" }}
             onClick={handleLogin}>
