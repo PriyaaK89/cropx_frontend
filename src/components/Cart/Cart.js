@@ -1,22 +1,4 @@
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  Box,
-  Image,
-  Text,
-  Flex,
-  HStack,
-  useToast,
-  useDisclosure,
-  Img,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Box, Image, Text, Flex, HStack, useToast, useDisclosure, Img, VStack, } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../Context/CartContext";
 import { RxCross2 } from "react-icons/rx";

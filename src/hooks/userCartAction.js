@@ -15,27 +15,28 @@ const useCartQuantityManager = ({
   const toast = useToast();
 
   // 🔁 Sync quantities from cart
-  const syncQuantitiesFromCart = useCallback(() => {
-    const productId = product?.id ?? product?.product_id;
-    const item = cartData?.find((p) => p.product_id === productId);
+ const syncQuantitiesFromCart = () => {
+  if (!cartData?.cart) return;
 
-    if (!item) {
-      setQuantities({});
-      return;
-    }
+  const updated = {};
 
-    let q = {};
-
-    item.single_packs?.forEach((sp) => {
-      q[`single_${sp.variant_id}`] = sp.cart_quantity;
+  cartData.cart.forEach(product => {
+    //  SINGLE PACKS
+    product.single_packs?.forEach(sp => {
+      const key = `single_${sp.variant_id}`;
+      updated[key] = sp.cart_quantity;
     });
 
-    item.multi_packs?.forEach((mp) => {
-      q[`multi_${mp.multipack_id}`] = mp.cart_quantity;
+    //  MULTI PACKS
+    product.multi_packs?.forEach(mp => {
+      const key = `multi_${mp.multipack_id}`;
+      updated[key] = mp.cart_quantity;
     });
+  });
 
-    setQuantities(q);
-  }, [cartData, product]);
+  setQuantities(updated);
+};
+
 
   // ➕ Increase
   const handleIncrease = async ({ variant_id, multipack_id }) => {

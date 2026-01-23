@@ -15,6 +15,7 @@ import { AuthContext } from "../Context/AuthContext";
 import { CartContext } from "../Context/CartContext";
 import useCartQuantityManager from "../../hooks/userCartAction";
 import LoginModal from "../Models/LoginModal";
+import CartDrawer from "../Cart/Cart";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -30,22 +31,33 @@ export default function ProductDetails() {
   const { getCartItems, cartData } = useContext(CartContext);
   const { isOpen: isLoginModalOpen, onOpen: onLoginModalOpen, onClose: onLoginModalClose } = useDisclosure();
   const userId = user?.data?.id;
-  const { quantities, handleIncrease, handleDecrease, syncQuantitiesFromCart } =
-    useCartQuantityManager({
-      userId,
-      product: data,
-      cartData,
-      getCartItems,
-      onLoginModalOpen,
-    });
+  const { quantities, handleIncrease, handleDecrease, syncQuantitiesFromCart } = useCartQuantityManager({ userId, product: data, cartData, getCartItems, onLoginModalOpen });
+  const getCurrentKey = (variant) => {
+  if (!variant) return null;
 
-  const currentKey = selectedVariant
-  ? selectedVariant.variant_id
-    ? `single_${selectedVariant.variant_id}`
-    : `multi_${selectedVariant.multipack_id}`
-  : null;
+  if (variant.multipack_id) {
+    return `multi_${variant.multipack_id}`;
+  }
 
-const currentQty = currentKey ? quantities[currentKey] || 0 : 0;
+  if (variant.variant_id) {
+    return `single_${variant.variant_id}`;
+  }
+
+  return null;
+};
+
+  // const currentKey = selectedVariant ? selectedVariant.variant_id ? `single_${selectedVariant.variant_id}` : `multi_${selectedVariant.multipack_id}` : null;
+
+const currentKey = getCurrentKey(selectedVariant);
+
+const currentQty =
+  currentKey &&
+  Object.prototype.hasOwnProperty.call(quantities, currentKey)
+    ? quantities[currentKey]
+    : 0;
+
+
+  const { isOpen: isCartDrawerOpen, onOpen: onCartDrawerOpen, onClose: onCartDrawerClose, } = useDisclosure();
 
   const getProductDetails = async () => {
     try {
@@ -79,6 +91,19 @@ const currentQty = currentKey ? quantities[currentKey] || 0 : 0;
     }
   };
 
+const getSelectedPayload = () => {
+  if (!selectedVariant) return null;
+
+  if (selectedVariant.variant_id && !selectedVariant.multipack_id) {
+    return { variant_id: selectedVariant.variant_id };
+  }
+
+  if (selectedVariant.multipack_id) {
+    return { multipack_id: selectedVariant.multipack_id };
+  }
+};
+
+
   useEffect(() => {
     getProductDetails();
   }, [id]);
@@ -90,6 +115,9 @@ const currentQty = currentKey ? quantities[currentKey] || 0 : 0;
 }, [data, cartData, syncQuantitiesFromCart]);
 
 
+
+
+
   if (loader || !data) {
     return (
       <Flex height={"80vh"} align={"center"} justify={"center"}>
@@ -98,20 +126,15 @@ const currentQty = currentKey ? quantities[currentKey] || 0 : 0;
     );
   }
 
-
-
   return (
     <>
       <LoginModal isLoginModalOpen={isLoginModalOpen} onLoginModalClose={onLoginModalClose}/>
+      <CartDrawer isCartDrawerOpen={isCartDrawerOpen} onCartDrawerClose={onCartDrawerClose} />
       <Box bg="#FAFAFA" minH="100vh" py="24px">
         <Box maxW="1400px" mx="auto" px="16px">
           <SimpleGrid columns={{ base: 1, lg: 2 }} spacing="40px">
             {/* ================= LEFT IMAGE SECTION ================= */}
-            <Box
-              bg="white"
-              borderRadius="8px"
-              border="1px solid #E0E0E0"
-              p="16px">
+            <Box bg="white" borderRadius="8px" border="1px solid #E0E0E0" p="16px">
               <Card boxShadow="none">
                 <Image src={selectedImage || data?.product_img} h="350px" w="100%" objectFit="contain" />
               </Card>
@@ -319,79 +342,85 @@ const currentQty = currentKey ? quantities[currentKey] || 0 : 0;
               </Box>
 
               {/* CTA */}
-              <HStack mt="24px">
+<HStack mt="24px">
   {currentQty === 0 ? (
-    /* ADD TO CART */
-    <Button
-      flex="1"
-      bg="#FF9F1C"
-      color="#2d2d2dff"
-      height={10}
-      _hover={{ bg: "#f57b2c", color: "white" }}
-      size="lg"
-      fontSize="15px"
-      fontWeight="600"
-      onClick={() =>
-        handleIncrease({
-          variant_id: selectedVariant?.variant_id || null,
-          multipack_id: selectedVariant?.multipack_id || null,
-        })
-      }
-    >
-      Add to Cart
-    </Button>
+    <>
+      {/* ADD TO CART */}
+      <Button
+        flex="1"
+        bg="#FF9F1C"
+        color="#2d2d2dff"
+        height={10}
+        _hover={{ bg: "#f57b2c", color: "white" }}
+        size="lg"
+        fontSize="15px"
+        fontWeight="600"
+        onClick={() => handleIncrease(getSelectedPayload())}
+      >
+        Add to Cart
+      </Button>
+
+      {/* BUY NOW */}
+      <Button
+        flex="1"
+        bg="#2E7D32"
+        height={10}
+        fontSize="15px"
+        color="white"
+        _hover={{ bg: "#16601a" }}
+        size="lg"
+        onClick={() => {
+          if (!userId) {
+            onLoginModalOpen();
+            return;
+          }
+          handleIncrease(getSelectedPayload());
+          onCartDrawerOpen();
+        }}
+      >
+        Buy Now
+      </Button>
+    </>
   ) : (
-    /* QUANTITY CONTROLS */
-    <HStack
-      flex="1"
-      height={10}
-      border="1px solid #E0E0E0"
-      borderRadius="8px"
-      overflow="hidden"
-    >
-      <Button
-        variant="ghost"
-        onClick={() =>
-          handleDecrease({
-            variant_id: selectedVariant?.variant_id || null,
-            multipack_id: selectedVariant?.multipack_id || null,
-          })
-        }
+    <>
+      {/* QUANTITY CONTROLS */}
+      <HStack
+        flex="1"
+        height={10}
+        border="1px solid #E0E0E0"
+        borderRadius="8px"
+        overflow="hidden"
       >
-        −
-      </Button>
+        <Button variant="ghost" onClick={() => handleDecrease(getSelectedPayload())}>
+          −
+        </Button>
 
-      <Box flex="1" textAlign="center" fontWeight="600">
-        {currentQty}
-      </Box>
+        <Box flex="1" textAlign="center" fontWeight="600" padding="10px 0px" backgroundColor="green" color="white">
+          {currentQty}
+        </Box>
 
+        <Button variant="ghost" onClick={() => handleIncrease(getSelectedPayload())}>
+          +
+        </Button>
+      </HStack>
+
+      {/* GO TO CART */}
       <Button
-        variant="ghost"
-        onClick={() =>
-          handleIncrease({
-            variant_id: selectedVariant?.variant_id || null,
-            multipack_id: selectedVariant?.multipack_id || null,
-          })
-        }
+        flex="1"
+        bg="#2E7D32"
+        height={10}
+        fontSize="15px"
+        color="white"
+        _hover={{ bg: "#16601a" }}
+        size="lg"
+        onClick={onCartDrawerOpen}
       >
-        +
+        Go to Cart
       </Button>
-    </HStack>
+    </>
   )}
-
-  {/* BUY NOW */}
-  <Button
-    flex="1"
-    bg="#2E7D32"
-    height={10}
-    fontSize="15px"
-    color="white"
-    _hover={{ bg: "#16601a" }}
-    size="lg"
-  >
-    Buy Now
-  </Button>
 </HStack>
+
 
             </Box>
           </SimpleGrid>
