@@ -9,7 +9,7 @@ services:
         REACT_APP_BASE_URL: ${REACT_APP_BASE_URL}
         REACT_APP_RAZORPAY_KEY_ID: ${REACT_APP_RAZORPAY_KEY_ID}
     ports:
-      - "3000:80"
+      - "80:80"
     env_file:
       - .env
     restart: unless-stopped
