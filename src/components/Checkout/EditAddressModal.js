@@ -180,7 +180,7 @@ const EditAddressModal = ({ isOpen, onClose, savedAddress, fetchOrders }) => {
           Edit Address
         </ModalHeader>
 
-        <ModalCloseButton top={0} right={0} bg="#bb1111" borderRadius="0px 19px 0px 0px" padding="19px 25px" color="white"/>
+        <ModalCloseButton top={0} right={0} bg="#b31010" borderRadius="0px 19px 0px 0px" padding="19px 25px" color="white"/>
 
         <ModalBody py={6}>
           <VStack spacing={4} align="stretch">
